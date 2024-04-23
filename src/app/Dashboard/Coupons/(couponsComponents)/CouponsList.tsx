@@ -6,8 +6,8 @@ import Tooltip from "@mui/material/Tooltip";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 const couponsTitles: string[] = [
-  "name",
-  "Category",
+  "store name",
+  "couponTitle",
   "Code",
   "Feature",
   "status",
@@ -28,11 +28,11 @@ const couponsData: {
   category: string;
 }[] = [
   {
-      name: "Alcoupon",
-      Feature: true,
-      status: true,
-      code: 0,
-      category: ""
+    name: "none",
+    Feature: true,
+    status: true,
+    code: 0,
+    category: "",
   },
 ];
 export default function CouponsList() {
@@ -70,7 +70,7 @@ export default function CouponsList() {
           Noon
         </Grid>
         <Grid xs={2} sx={{ display: "flex", justifyContent: "center" }}>
-          Noon
+          discount{" "}
         </Grid>
         <Grid xs={2} sx={{ display: "flex", justifyContent: "center" }}>
           3654

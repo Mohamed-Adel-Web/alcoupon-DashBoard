@@ -13,8 +13,9 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
-import useAddStore from "src/customHooks/useAddStore";
-import { storeType } from "src/types/storeTypes"; // Ensure this import matches your file structure and export
+import useUpdatedStore from "src/customHooks/useUpdateStore";
+import { storeType } from "src/types/storeTypes";
+import { ReceivedStoreType } from "src/types/storeTypes";
 import {
   FormControlLabel,
   FormHelperText,
@@ -22,16 +23,21 @@ import {
   Select,
   Switch,
 } from "@mui/material";
+import axios from "axios";
+import { headers } from "next/headers";
 
-export default function AddStoreModal({
+export default function UpdatedStoreModal({
+  store,
   open,
-  handleAddStoreClose,
+  handleUpdatedStoreClose,
 }: {
+  store: ReceivedStoreType;
   open: boolean;
-  handleAddStoreClose: () => void;
+  handleUpdatedStoreClose: () => void;
 }) {
-  const { register, control, handleSubmit, formState, watch, setValue, reset } =
-    useForm<storeType>(); 
+  const { register, control, handleSubmit, formState, watch, setValue } =
+    useForm<storeType>();
+
   const imageSrc = watch("image");
   const { errors, isSubmitting } = formState;
   const handleFilePondUpdate = (fileItems: any[]) => {
@@ -41,7 +47,7 @@ export default function AddStoreModal({
       { shouldValidate: true }
     );
   };
-  const { mutate, isSuccess } = useAddStore();
+  const { mutate, isSuccess } = useUpdatedStore();
   React.useEffect(() => {
     register("image", { required: "Image upload is required" });
   }, [register]);
@@ -57,18 +63,17 @@ export default function AddStoreModal({
     formData.append("featured", data.featured ? "featured" : "not-featured");
     formData.append("category", data.category);
     formData.append("image", data.image[0]);
-   console.log(formData.get("image")) 
     mutate(formData);
   };
-
+ 
+  
   return (
     <React.Fragment>
-      <Dialog open={open} onClose={handleAddStoreClose} fullWidth>
-        <DialogTitle sx={{ color: "primary.main" }}>Add New Store</DialogTitle>
+      <Dialog open={open} onClose={handleUpdatedStoreClose} fullWidth>
+        <DialogTitle sx={{ color: "primary.main" }}>Update Store</DialogTitle>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogContent>
             <Grid container spacing={2}>
-              {/* Updated the field registrations to match the interface */}
               <Grid md={6} xs={12}>
                 <TextField
                   fullWidth
@@ -301,9 +306,9 @@ export default function AddStoreModal({
             </Grid>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleAddStoreClose}>Cancel</Button>
-            <Button type="submit" disabled={isSubmitting}>
-              Add Store
+            <Button onClick={handleUpdatedStoreClose}>Cancel</Button>
+            <Button type="submit" disabled={isSubmitting} >
+              Update Store
             </Button>
           </DialogActions>
         </form>

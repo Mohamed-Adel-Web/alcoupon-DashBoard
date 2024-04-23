@@ -1,25 +1,29 @@
 "use client";
 import { Box, Button, Typography } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import Heading from "../DashboardSharedComponent/Heading";
 import CouponsList from "./(couponsComponents)/CouponsList";
+import AddCouponModal from "./(couponsComponents)/AddCouponModal";
 export default function CouponsPage() {
-  const [openAddStore, setOpenAddStore] = useState<boolean>(false);
-  const handleAddStoreClose: () => void = () => {
-    setOpenAddStore(false);
+  const [openAddCoupon, setOpenAddCoupon] = useState<boolean>(false);
+  const handleAddCouponClose: () => void = () => {
+    setOpenAddCoupon(false);
   };
-  const handleAddStoreOpen: () => void = () => {
-    setOpenAddStore(true);
+  const handleAddCouponOpen: () => void = () => {
+    setOpenAddCoupon(true);
   };
   return (
     <Box sx={{ margin: "1rem 0" }}>
       <Heading
         title="Coupons"
-        handleOpen={handleAddStoreOpen}
+        handleOpen={handleAddCouponOpen}
         buttonTitle="Add new coupon"
       />
-    <CouponsList />
+      <CouponsList />
+      <AddCouponModal
+        open={openAddCoupon}
+        handleAddCategoryClose={handleAddCouponClose}
+      />
     </Box>
   );
 }

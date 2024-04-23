@@ -10,12 +10,14 @@ import CategoryIcon from "@mui/icons-material/Category";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import StoreIcon from "@mui/icons-material/Store";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
+import InventoryIcon from "@mui/icons-material/Inventory";
 import Link from "next/link";
 export const DashboardMenuData: { title: string; icon: React.ReactElement }[] =
   [
     { title: "stores", icon: <StoreIcon /> },
     { title: "Category", icon: <CategoryIcon /> },
     { title: "Coupons", icon: <BookOnlineIcon /> },
+    { title: "products", icon: <InventoryIcon /> },
   ];
 const DashboardMenuList = DashboardMenuData.map((data, index) => {
   return (

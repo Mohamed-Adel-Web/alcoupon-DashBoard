@@ -17,7 +17,7 @@ export default function Home() {
   });
   const { errors, isSubmitting } = formState;
   const onSubmit = (loginData: loginData) => {
-    mutate({ ...loginData, role: "admin" });
+    mutate(loginData);
   };
 
   return (
