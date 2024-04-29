@@ -13,7 +13,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
-import useAddStore from "src/customHooks/useAddStore";
+import useAddStore from "src/customHooks/storeHooks/useAddStore";
 import { storeType } from "src/types/storeTypes"; // Ensure this import matches your file structure and export
 import {
   FormControlLabel,
@@ -22,16 +22,21 @@ import {
   Select,
   Switch,
 } from "@mui/material";
+import useGetCategory from "src/customHooks/categoryHooks/useGetCategory";
+import { categoryType } from "src/types/categoryTypes";
+import { Toaster } from "react-hot-toast";
 
 export default function AddStoreModal({
   open,
   handleAddStoreClose,
+  categoryData,
 }: {
   open: boolean;
   handleAddStoreClose: () => void;
+  categoryData: categoryType[];
 }) {
   const { register, control, handleSubmit, formState, watch, setValue, reset } =
-    useForm<storeType>(); 
+    useForm<storeType>();
   const imageSrc = watch("image");
   const { errors, isSubmitting } = formState;
   const handleFilePondUpdate = (fileItems: any[]) => {
@@ -42,22 +47,36 @@ export default function AddStoreModal({
     );
   };
   const { mutate, isSuccess } = useAddStore();
+  const categoryList = categoryData?.map((category: categoryType) => {
+    return <MenuItem value={category.id}>{category.name_en}</MenuItem>;
+  });
+  React.useMemo(() => {
+    if (isSuccess) {
+      handleAddStoreClose();
+    }
+  }, [isSuccess]);
   React.useEffect(() => {
     register("image", { required: "Image upload is required" });
   }, [register]);
 
   const onSubmit = (data: storeType) => {
     const formData = new FormData();
-    formData.append("name_en", data.name_en);
     formData.append("name_ar", data.name_ar);
-    formData.append("Link", data.Link_ar);
+    formData.append("name_en", data.name_en);
+    formData.append("image", data.image[0]);
+    formData.append("featured", data.featured ? "featured" : "not-featured");
+    formData.append("status", data.status ? "active" : "in-active");
+    formData.append("link_en", data.link_en);
+    formData.append("link_ar", data.link_ar);
     formData.append("description_ar", data.description_ar);
     formData.append("description_en", data.description_en);
-    formData.append("status", data.status ? "active" : "inactive");
-    formData.append("featured", data.featured ? "featured" : "not-featured");
-    formData.append("category", data.category);
-    formData.append("image", data.image[0]);
-   console.log(formData.get("image")) 
+    formData.append("category_id", data.category_id);
+    formData.append("meta_title_ar", data.meta_title_ar);
+    formData.append("meta_title_en", data.meta_title_en);
+    formData.append("meta_description_en", data.meta_description_en);
+    formData.append("meta_description_ar", data.meta_description_ar);
+    formData.append("meta_keyword_ar", data.meta_keyword_ar);
+    formData.append("meta_keyword_en", data.meta_keyword_en);
     mutate(formData);
   };
 
@@ -68,7 +87,6 @@ export default function AddStoreModal({
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogContent>
             <Grid container spacing={2}>
-              {/* Updated the field registrations to match the interface */}
               <Grid md={6} xs={12}>
                 <TextField
                   fullWidth
@@ -78,6 +96,10 @@ export default function AddStoreModal({
                   variant="outlined"
                   {...register("name_en", {
                     required: "Store name is required",
+                    minLength: {
+                      value: 3,
+                      message: "minimum length is 3 character",
+                    },
                   })}
                   error={!!errors.name_en}
                   helperText={errors.name_en?.message}
@@ -92,6 +114,10 @@ export default function AddStoreModal({
                   variant="outlined"
                   {...register("name_ar", {
                     required: "Store name is required",
+                    minLength: {
+                      value: 3,
+                      message: "minimum length is 3 character",
+                    },
                   })}
                   error={!!errors.name_ar}
                   helperText={errors.name_ar?.message}
@@ -104,11 +130,16 @@ export default function AddStoreModal({
                   label="Store Link in english"
                   type="text"
                   variant="outlined"
-                  {...register("Link_en", {
+                  {...register("link_en", {
                     required: "Store link is required",
+                    pattern: {
+                      value:
+                        /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- ./?%&=]*)?$/,
+                      message: "Please enter a valid URL",
+                    },
                   })}
-                  error={!!errors.Link_en}
-                  helperText={errors.Link_en?.message}
+                  error={!!errors.link_en}
+                  helperText={errors.link_en?.message}
                 />
               </Grid>
               <Grid md={6} xs={12}>
@@ -118,11 +149,16 @@ export default function AddStoreModal({
                   label="Store Link in arabic"
                   type="text"
                   variant="outlined"
-                  {...register("Link_ar", {
+                  {...register("link_ar", {
                     required: "Store link is required",
+                    pattern: {
+                      value:
+                        /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- ./?%&=]*)?$/,
+                      message: "Please enter a valid URL",
+                    },
                   })}
-                  error={!!errors.Link_ar}
-                  helperText={errors.Link_ar?.message}
+                  error={!!errors.link_ar}
+                  helperText={errors.link_ar?.message}
                 />
               </Grid>
 
@@ -136,6 +172,10 @@ export default function AddStoreModal({
                   variant="outlined"
                   {...register("description_en", {
                     required: "Store description is required",
+                    minLength: {
+                      value: 20,
+                      message: "minimum length is 20 character",
+                    },
                   })}
                   error={!!errors.description_en}
                   helperText={errors.description_en?.message}
@@ -151,6 +191,10 @@ export default function AddStoreModal({
                   variant="outlined"
                   {...register("description_ar", {
                     required: "Store description is required",
+                    minLength: {
+                      value: 20,
+                      message: "minimum length is 20 character",
+                    },
                   })}
                   error={!!errors.description_ar}
                   helperText={errors.description_ar?.message}
@@ -174,17 +218,16 @@ export default function AddStoreModal({
                     labelId="category-label"
                     id="category-select"
                     label="Category"
-                    {...register("category", {
+                    {...register("category_id", {
                       required: "Store category is required",
+                      valueAsNumber: true,
                     })}
-                    error={!!errors.category}
+                    error={!!errors.category_id}
                   >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    {categoryList}
                   </Select>
                   <FormHelperText error>
-                    {errors.category?.message}
+                    {errors.category_id?.message}
                   </FormHelperText>
                 </FormControl>
               </Grid>
@@ -198,6 +241,10 @@ export default function AddStoreModal({
                   variant="outlined"
                   {...register("meta_title_ar", {
                     required: "Meta title is required",
+                    minLength: {
+                      value: 3,
+                      message: "minimum length is 3 character",
+                    },
                   })}
                   error={!!errors.meta_title_ar}
                   helperText={errors.meta_title_ar?.message}
@@ -214,6 +261,10 @@ export default function AddStoreModal({
                   variant="outlined"
                   {...register("meta_title_en", {
                     required: "Meta title is required",
+                    minLength: {
+                      value: 3,
+                      message: "minimum length is 3 character",
+                    },
                   })}
                   error={!!errors.meta_title_en}
                   helperText={errors.meta_title_en?.message}
@@ -230,6 +281,10 @@ export default function AddStoreModal({
                   variant="outlined"
                   {...register("meta_description_ar", {
                     required: "Meta description is required",
+                    minLength: {
+                      value: 20,
+                      message: "minimum length is 20 character",
+                    },
                   })}
                   error={!!errors.meta_description_ar}
                   helperText={errors.meta_description_ar?.message}
@@ -246,6 +301,10 @@ export default function AddStoreModal({
                   variant="outlined"
                   {...register("meta_description_en", {
                     required: "Meta description is required",
+                    minLength: {
+                      value: 20,
+                      message: "minimum length is 20 character",
+                    },
                   })}
                   error={!!errors.meta_description_en}
                   helperText={errors.meta_description_en?.message}
@@ -262,6 +321,10 @@ export default function AddStoreModal({
                   variant="outlined"
                   {...register("meta_keyword_ar", {
                     required: "Meta keywords are required",
+                    minLength: {
+                      value: 3,
+                      message: "minimum length is 3 character",
+                    },
                   })}
                   error={!!errors.meta_keyword_ar}
                   helperText={errors.meta_keyword_ar?.message}
@@ -278,6 +341,10 @@ export default function AddStoreModal({
                   variant="outlined"
                   {...register("meta_keyword_en", {
                     required: "Meta keywords are required",
+                    minLength: {
+                      value: 3,
+                      message: "minimum length is 3 character",
+                    },
                   })}
                   error={!!errors.meta_keyword_en}
                   helperText={errors.meta_keyword_en?.message}
@@ -307,8 +374,25 @@ export default function AddStoreModal({
             </Button>
           </DialogActions>
         </form>
-        <DevTool control={control} />
+        {/* <DevTool control={control} /> */}
       </Dialog>
+      <Toaster
+        toastOptions={{
+          position: "bottom-left",
+          success: {
+            style: {
+              background: "green",
+              color: "white",
+            },
+          },
+          error: {
+            style: {
+              background: "red",
+              color: "white",
+            },
+          },
+        }}
+      />
     </React.Fragment>
   );
 }

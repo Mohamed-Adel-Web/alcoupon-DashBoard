@@ -1,24 +1,27 @@
 "use client";
-import { useMutation } from "@tanstack/react-query";
+import {  useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { loginData } from "../types/loginTypes";
-import { loginUrl } from "src/app/_service/Service";
 import toast from "react-hot-toast";
+import { storeUrl } from "src/app/_service/Service";
 import { useAuth } from "src/app/context/AuthContext";
-const useAdminSignIn = () => {
+const useDeleteStore = (id: number) => {
   const { token, setToken } = useAuth();
-  const signInRequest = (adminData: loginData) => {
-    return axios.post(loginUrl, adminData);
+  setToken(window.localStorage.getItem("token"));
+  const deleteStoreRequest = () => {
+    return axios.delete(`${storeUrl}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   };
-
+  const queryClient = useQueryClient();
   const { mutate, data, error, isPending, isSuccess, isError } = useMutation({
-    mutationKey: ["SignIn"],
-    mutationFn: signInRequest,
+    mutationKey: ["deleteStore", id],
+    mutationFn: deleteStoreRequest,
     onSuccess: (data) => {
       if (data.data.success) {
         toast.success(`${data.data.message}`);
-        window.localStorage.setItem("token", data.data.data.token);
-        setToken(data.data.data.token);
+        queryClient.invalidateQueries({ queryKey: ["AllStore"] });
       } else {
         toast.error(`${data.data.message}`);
       }
@@ -31,4 +34,4 @@ const useAdminSignIn = () => {
   return { mutate, data, error, isPending, isSuccess, isError };
 };
 
-export default useAdminSignIn;
+export default useDeleteStore;

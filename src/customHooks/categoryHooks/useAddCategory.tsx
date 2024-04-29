@@ -1,23 +1,28 @@
 "use client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { categoryType } from "src/types/categoryTypes";
+import { categoryUrl } from "src/app/_service/Service";
+import { useAuth } from "src/app/context/AuthContext";
 const useAddCategory = () => {
-  const addCategoryRequest = (storeData: categoryType) => {
-    return axios.post(
-      "https://f155-41-234-214-241.ngrok-free.app/api/admin/login",
-      storeData,
-      { headers: { token: "" } }
-    );
+  const { token, setToken } = useAuth();
+  setToken(window.localStorage.getItem("token"));
+  const addCategoryRequest = (categoryData: categoryType) => {
+    return axios.post(categoryUrl, categoryData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   };
-
+  const queryClient = useQueryClient();
   const { mutate, data, error, isPending, isSuccess, isError } = useMutation({
     mutationKey: ["addCategory"],
     mutationFn: addCategoryRequest,
     onSuccess: (data) => {
       if (data.data.success) {
         toast.success(`${data.data.message}`);
+        queryClient.invalidateQueries({ queryKey: ["AllCategory"] });
       } else {
         toast.error(`${data.data.message}`);
       }

@@ -13,7 +13,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
-import useUpdatedStore from "src/customHooks/useUpdateStore";
+import useUpdatedStore from "src/customHooks/storeHooks/useUpdateStore";
 import { storeType } from "src/types/storeTypes";
 import { ReceivedStoreType } from "src/types/storeTypes";
 import {
@@ -23,19 +23,23 @@ import {
   Select,
   Switch,
 } from "@mui/material";
-import axios from "axios";
-import { headers } from "next/headers";
-
+import { categoryType } from "src/types/categoryTypes";
+import { tree } from "next/dist/build/templates/app-page";
 export default function UpdatedStoreModal({
   store,
   open,
+  categoryData,
   handleUpdatedStoreClose,
 }: {
   store: ReceivedStoreType;
   open: boolean;
   handleUpdatedStoreClose: () => void;
+  categoryData: categoryType[];
 }) {
-  const { register, control, handleSubmit, formState, watch, setValue } =
+  const categoryList = categoryData?.map((category: categoryType) => {
+    return <MenuItem value={category.id}>{category.name_en}</MenuItem>;
+  });
+  const { register, control, handleSubmit, formState, watch, setValue, reset } =
     useForm<storeType>();
 
   const imageSrc = watch("image");
@@ -47,26 +51,58 @@ export default function UpdatedStoreModal({
       { shouldValidate: true }
     );
   };
-  const { mutate, isSuccess } = useUpdatedStore();
+  const { mutate, isSuccess } = useUpdatedStore(store.id);
   React.useEffect(() => {
     register("image", { required: "Image upload is required" });
   }, [register]);
-
+  React.useEffect(() => {
+    if (store) {
+      reset({
+        name_ar: store.name_ar,
+        name_en: store.name_en,
+        featured: store.featured === "featured" ? true : false,
+        status: store.status === "active" ? true : false,
+        link_en: store.link_en,
+        link_ar: store.link_ar,
+        description_ar: store.description_ar,
+        description_en: store.description_en,
+        category_id: store.category_id,
+        meta_title_ar: store.meta.meta_title_ar,
+        meta_title_en: store.meta.meta_title_en,
+        meta_description_en: store.meta.meta_description_en,
+        meta_description_ar: store.meta.meta_description_ar,
+        meta_keyword_ar: store.meta.meta_keyword_ar,
+        meta_keyword_en: store.meta.meta_keyword_en,
+      });
+    }
+    {
+    }
+  }, [reset, store]);
   const onSubmit = (data: storeType) => {
     const formData = new FormData();
-    formData.append("name_en", data.name_en);
     formData.append("name_ar", data.name_ar);
-    formData.append("Link", data.Link_ar);
+    formData.append("name_en", data.name_en);
+    if (data.image) {
+      formData.append("image", data?.image[0]);
+    }
+    if (data.category_id) {
+      formData.append("category_id", data.category_id);
+    }
+    formData.append("featured", data.featured ? "featured" : "not-featured");
+    formData.append("status", data.status ? "active" : "in-active");
+    formData.append("link_en", data.link_en);
+    formData.append("link_ar", data.link_ar);
     formData.append("description_ar", data.description_ar);
     formData.append("description_en", data.description_en);
-    formData.append("status", data.status ? "active" : "inactive");
-    formData.append("featured", data.featured ? "featured" : "not-featured");
-    formData.append("category", data.category);
-    formData.append("image", data.image[0]);
+    formData.append("meta_title_ar", data.meta_title_ar);
+    formData.append("meta_title_en", data.meta_title_en);
+    formData.append("meta_description_en", data.meta_description_en);
+    formData.append("meta_description_ar", data.meta_description_ar);
+    formData.append("meta_keyword_ar", data.meta_keyword_ar);
+    formData.append("meta_keyword_en", data.meta_keyword_en);
     mutate(formData);
   };
- 
-  
+
   return (
     <React.Fragment>
       <Dialog open={open} onClose={handleUpdatedStoreClose} fullWidth>
@@ -109,11 +145,11 @@ export default function UpdatedStoreModal({
                   label="Store Link in english"
                   type="text"
                   variant="outlined"
-                  {...register("Link_en", {
+                  {...register("link_en", {
                     required: "Store link is required",
                   })}
-                  error={!!errors.Link_en}
-                  helperText={errors.Link_en?.message}
+                  error={!!errors.link_en}
+                  helperText={errors.link_en?.message}
                 />
               </Grid>
               <Grid md={6} xs={12}>
@@ -123,11 +159,11 @@ export default function UpdatedStoreModal({
                   label="Store Link in arabic"
                   type="text"
                   variant="outlined"
-                  {...register("Link_ar", {
+                  {...register("link_ar", {
                     required: "Store link is required",
                   })}
-                  error={!!errors.Link_ar}
-                  helperText={errors.Link_ar?.message}
+                  error={!!errors.link_ar}
+                  helperText={errors.link_ar?.message}
                 />
               </Grid>
 
@@ -179,17 +215,13 @@ export default function UpdatedStoreModal({
                     labelId="category-label"
                     id="category-select"
                     label="Category"
-                    {...register("category", {
-                      required: "Store category is required",
-                    })}
-                    error={!!errors.category}
+                    {...register("category_id")}
+                    error={!!errors.category_id}
                   >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    {categoryList}
                   </Select>
                   <FormHelperText error>
-                    {errors.category?.message}
+                    {errors.category_id?.message}
                   </FormHelperText>
                 </FormControl>
               </Grid>
@@ -291,14 +323,15 @@ export default function UpdatedStoreModal({
 
               <Grid xs={6} sx={{ display: "flex", justifyContent: "center" }}>
                 <FormControlLabel
-                  control={<Switch defaultChecked />}
+                  control={<Switch />}
                   label="Status"
                   {...register("status")}
                 />
               </Grid>
               <Grid xs={6} sx={{ display: "flex", justifyContent: "center" }}>
                 <FormControlLabel
-                  control={<Switch defaultChecked />}
+                  value={store.featured === "featured"}
+                  control={<Switch />}
                   label="Featured"
                   {...register("featured")}
                 />
@@ -307,12 +340,12 @@ export default function UpdatedStoreModal({
           </DialogContent>
           <DialogActions>
             <Button onClick={handleUpdatedStoreClose}>Cancel</Button>
-            <Button type="submit" disabled={isSubmitting} >
+            <Button type="submit" disabled={isSubmitting}>
               Update Store
             </Button>
           </DialogActions>
         </form>
-        <DevTool control={control} />
+        {/* <DevTool control={control} /> */}
       </Dialog>
     </React.Fragment>
   );

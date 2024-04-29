@@ -8,8 +8,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
 import { ReceivedStoreType } from "src/types/storeTypes";
 import UpdatedStoreModal from "./UpdateStoreModal";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { categoryType } from "src/types/categoryTypes";
+import DeleteStoreModal from "./DeleteStoreModal";
+import useGetStore from "src/customHooks/storeHooks/useGetStore";
 const storesTitles: string[] = ["name", "image", "Feature", "status", "Action"];
 const storesTitlesList = storesTitles.map((title) => {
   return (
@@ -18,63 +19,34 @@ const storesTitlesList = storesTitles.map((title) => {
     </Grid>
   );
 });
-const storesData: ReceivedStoreType[] = [
-  {
-    id: 1,
-    name_ar: "قلم رصاص أساسي",
-    name_en: "Noon",
-    image:
-      "https://d318j52nj6xnxf.cloudfront.net/sites/all/themes/alcoupon/svg/logo-inverse.svg",
-    featured: true,
-    status: true,
-    Link_en: "http://example.com/basic-pencil",
-    Link_ar: "http://example.com/ar/basic-pencil",
-    description_ar: "قلم رصاص مثالي لجميع احتياجاتك الكتابية.",
-    description_en: "A perfect pencil for all your writing needs.",
-    category: "Stationery",
-    meta_title_ar: "قلم رصاص للبيع",
-    meta_title_en: "Pencil for Sale",
-    meta_description_en:
-      "Buy our Basic Pencil, ideal for writing and sketching.",
-    meta_description_ar: "اشتر قلمنا الرصاص الأساسي، المثالي للكتابة والرسم.",
-    meta_keyword_ar: "قلم، رصاص، كتابة، رسم",
-    meta_keyword_en: "pencil, writing, sketching",
-  },
-];
 
-export default function StoresList() {
-  const getSingleData = async () => {
-    return axios.get("http://192.168.1.19/api/stores/1", {
-      headers: {
-        Authorization:
-          "Bearer 4|mjwoY0Rwg7wGheS3yWbM1NaWaJgKgDN4YfhnQvVA480a70e0",
-      },
-    });
-  };
-  const { isPending, error, data } = useQuery({
-    queryKey: ["getSinglePost"],
-    queryFn: getSingleData,
-    enabled: false,
-  });
-
+export default function StoresList({
+  categoryData,
+}: {
+  categoryData: categoryType[];
+}) {
+  const { data } = useGetStore();
+  const storesData: ReceivedStoreType[] = data?.data.data;
   const [store, setStore] = useState<ReceivedStoreType>({
     id: 0,
     name_ar: "",
     name_en: "",
-    image: "",
-    featured: false,
-    status: false,
-    Link_en: "",
-    Link_ar: "",
+    image: "/",
+    featured: "featured",
+    status: "active",
+    link_en: "",
+    link_ar: "",
     description_ar: "",
     description_en: "",
-    category: "",
-    meta_title_ar: "",
-    meta_title_en: "",
-    meta_description_en: "",
-    meta_description_ar: "",
-    meta_keyword_ar: "",
-    meta_keyword_en: "",
+    category_id: "",
+    meta: {
+      meta_title_ar: "",
+      meta_title_en: "",
+      meta_description_en: "",
+      meta_description_ar: "",
+      meta_keyword_ar: "",
+      meta_keyword_en: "",
+    },
   });
   const [openUpdateStore, setOpenUpdateStore] = useState<boolean>(false);
   const handleUpdateStoreClose: () => void = () => {
@@ -83,7 +55,14 @@ export default function StoresList() {
   const handleUpdateStoreOpen: () => void = () => {
     setOpenUpdateStore(true);
   };
-  const storesList = storesData.map((store) => {
+  const [openDeleteStore, setOpenDeleteStore] = useState<boolean>(false);
+  const handleDeleteStoreClose: () => void = () => {
+    setOpenDeleteStore(false);
+  };
+  const handleDeleteStoreOpen: () => void = () => {
+    setOpenDeleteStore(true);
+  };
+  const storesList = storesData?.map((store) => {
     return (
       <Grid
         key={store.id}
@@ -104,18 +83,18 @@ export default function StoresList() {
           {store.name_en}
         </Grid>
         <Grid xs={2} sx={{ display: "flex", justifyContent: "center" }}>
-          <Image
-            src={`${store.image[0]}`}
+          <img
+            src={`${store.image}`}
             width={100}
             height={50}
             alt="store image"
           />
         </Grid>
         <Grid xs={2} sx={{ display: "flex", justifyContent: "center" }}>
-          {store.featured ? "Active" : "inactive"}
+          {store.featured }
         </Grid>{" "}
         <Grid xs={2} sx={{ display: "flex", justifyContent: "center" }}>
-          {store.status ? "Active" : "inactive"}
+          {store.status }
         </Grid>{" "}
         <Grid xs={2} sx={{ display: "flex", justifyContent: "center" }}>
           <Tooltip title="Edit">
@@ -129,7 +108,12 @@ export default function StoresList() {
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete">
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                setStore(store);
+                handleDeleteStoreOpen();
+              }}
+            >
               <DeleteIcon sx={{ color: "#d50000" }} />
             </IconButton>
           </Tooltip>
@@ -158,6 +142,12 @@ export default function StoresList() {
         store={store}
         open={openUpdateStore}
         handleUpdatedStoreClose={handleUpdateStoreClose}
+        categoryData={categoryData}
+      />
+      <DeleteStoreModal
+        store={store}
+        open={openDeleteStore}
+        handleDeleteStoreClose={handleDeleteStoreClose}
       />
     </Box>
   );

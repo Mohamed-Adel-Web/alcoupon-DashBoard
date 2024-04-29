@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import Image from "next/image";
 import CloseIcon from "@mui/icons-material/Close";
 import List from "@mui/material/List";
@@ -61,7 +61,7 @@ export default function DashboardMenu({
           transition: "0.3s",
         }}
       >
-        <Typography
+        <Box
           className="menuClose"
           sx={{
             justifyContent: "flex-end",
@@ -71,8 +71,8 @@ export default function DashboardMenu({
           <IconButton onClick={handleDrawerClose}>
             <CloseIcon />
           </IconButton>
-        </Typography>
-        <Typography className="menuHeader">
+        </Box>
+        <Box className="menuHeader">
           <Image
             src={
               "https://d318j52nj6xnxf.cloudfront.net/sites/all/themes/alcoupon/svg/logo-inverse.svg"
@@ -82,8 +82,8 @@ export default function DashboardMenu({
             height={80}
             alt="alcoupon dashboard image"
           />
-        </Typography>
-        <Typography className="menuBody">
+        </Box>
+        <Box className="menuBody">
           <List>
             <Link
               href={`/Dashboard`}
@@ -100,7 +100,7 @@ export default function DashboardMenu({
             </Link>
             {DashboardMenuList}
           </List>
-        </Typography>
+        </Box>
       </Box>
     </>
   );

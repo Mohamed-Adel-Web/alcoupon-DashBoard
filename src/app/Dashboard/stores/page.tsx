@@ -1,11 +1,15 @@
 "use client";
-import { Box, Button, Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import { Suspense } from "react";
 import AddStoreModal from "./(storeComponents)/AddStoreModal";
-import AddIcon from "@mui/icons-material/Add";
 import StoresList from "./(storeComponents)/storesList";
 import { useState } from "react";
 import Heading from "../DashboardSharedComponent/Heading";
+import useGetCategory from "src/customHooks/categoryHooks/useGetCategory";
+import { categoryType } from "src/types/categoryTypes";
 export default function store() {
+  const { data } = useGetCategory();
+  const categoryData: categoryType[] = data?.data.data;
   const [openAddStore, setOpenAddStore] = useState<boolean>(false);
   const handleAddStoreClose: () => void = () => {
     setOpenAddStore(false);
@@ -20,10 +24,11 @@ export default function store() {
         handleOpen={handleAddStoreOpen}
         buttonTitle="Add new store"
       />
-      <StoresList />
+      <StoresList categoryData={categoryData} />
       <AddStoreModal
         open={openAddStore}
         handleAddStoreClose={handleAddStoreClose}
+        categoryData={categoryData}
       />
     </Box>
   );

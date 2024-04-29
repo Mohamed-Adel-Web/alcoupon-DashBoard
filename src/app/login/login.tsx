@@ -82,10 +82,6 @@ export default function Home() {
             variant="outlined"
             {...register("password", {
               required: "password is required",
-              minLength: {
-                value: 8,
-                message: "password must be at least 8 characters",
-              },
             })}
             error={!!errors.password}
             helperText={errors.password?.message}

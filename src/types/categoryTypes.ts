@@ -1,4 +1,5 @@
 export interface categoryType {
-  category_en: string;
-  category_ar: string;
+  id?: number;
+  name_en: string;
+  name_ar: string;
 }

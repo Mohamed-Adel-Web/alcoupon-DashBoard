@@ -1,0 +1,45 @@
+"use client";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { storeUrl } from "src/app/_service/Service";
+import { useAuth } from "src/app/context/AuthContext";
+interface AxiosError {
+  response?: {
+    data: {
+      message: string;
+    };
+  };
+}
+const useAddStore = () => {
+  const { token, setToken } = useAuth();
+  setToken(window.localStorage.getItem("token"));
+  const addStoreRequest = (storeData: FormData) => {
+    return axios.post(storeUrl, storeData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  };
+  const queryClient = useQueryClient();
+  const { mutate, data, error, isPending, isSuccess, isError } = useMutation({
+    mutationKey: ["addStore"],
+    mutationFn: addStoreRequest,
+    onSuccess: (data) => {
+      if (data.data.success) {
+        toast.success(`${data.data.message}`);
+        queryClient.invalidateQueries({ queryKey: ["AllStore"] });
+      } else {
+        console.log(data);
+        toast.error(`${data.data.message}`);
+      }
+    },
+    onError: (error: AxiosError) => {
+      toast.error(`${error?.response?.data.message}`);
+    },
+  });
+
+  return { mutate, data, error, isPending, isSuccess, isError };
+};
+
+export default useAddStore;
