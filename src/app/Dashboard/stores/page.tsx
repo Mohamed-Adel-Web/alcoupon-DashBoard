@@ -7,6 +7,7 @@ import { useState } from "react";
 import Heading from "../DashboardSharedComponent/Heading";
 import useGetCategory from "src/customHooks/categoryHooks/useGetCategory";
 import { categoryType } from "src/types/categoryTypes";
+import { Toaster } from "react-hot-toast";
 export default function store() {
   const { data } = useGetCategory();
   const categoryData: categoryType[] = data?.data.data;
@@ -29,6 +30,23 @@ export default function store() {
         open={openAddStore}
         handleAddStoreClose={handleAddStoreClose}
         categoryData={categoryData}
+      />
+      <Toaster
+        toastOptions={{
+          position: "bottom-left",
+          success: {
+            style: {
+              background: "green",
+              color: "white",
+            },
+          },
+          error: {
+            style: {
+              background: "red",
+              color: "white",
+            },
+          },
+        }}
       />
     </Box>
   );

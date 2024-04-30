@@ -8,7 +8,7 @@ export interface storeType {
   link_ar: string;
   description_ar: string;
   description_en: string;
-  category_id: string;
+  category_id: number;
   meta_title_ar: string;
   meta_title_en: string;
   meta_description_en: string;
@@ -42,6 +42,13 @@ export interface ReceivedStoreType
   id: number;
   image: string;
   meta: Meta;
+  featured: string;
+  status: string;
+}
+export interface couponStore
+  extends Omit<storeType, "image" | "featured" | "status"> {
+  id: number;
+  image: string;
   featured: string;
   status: string;
 }

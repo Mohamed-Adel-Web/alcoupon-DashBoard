@@ -2,14 +2,23 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { categoryUrl } from "src/app/_service/Service";
-import { couponType } from "src/types/couponTypes";
-
+import { couponUrl } from "src/app/_service/Service";
+import { useAuth } from "src/app/context/AuthContext";
+import {  couponType, } from "src/types/couponTypes";
+interface AxiosError {
+  response?: {
+    data: {
+      message: string;
+    };
+  };
+}
 const useAddCoupon = () => {
-  const addCouponRequest = (categoryData: couponType) => {
-    return axios.post(categoryUrl, categoryData, {
+  const { token, setToken } = useAuth();
+  setToken(window.localStorage.getItem('token'));
+  const addCouponRequest = (couponData: couponType) => {
+    return axios.post(couponUrl, couponData, {
       headers: {
-        // Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
   };
@@ -20,13 +29,13 @@ const useAddCoupon = () => {
     onSuccess: (data) => {
       if (data.data.success) {
         toast.success(`${data.data.message}`);
-        queryClient.invalidateQueries({ queryKey: ["AllCoupon"] });
+        queryClient.invalidateQueries({ queryKey: ["AllCoupons"] });
       } else {
         toast.error(`${data.data.message}`);
       }
     },
-    onError: (error) => {
-      toast.error(`${error.message}`);
+    onError: (error:AxiosError) => {
+      toast.error(`${error?.response?.data.message}`);
     },
   });
 

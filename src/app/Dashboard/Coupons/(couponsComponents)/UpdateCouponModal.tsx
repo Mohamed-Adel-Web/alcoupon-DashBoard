@@ -8,8 +8,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useForm, Controller } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
-import { couponType } from "src/types/couponTypes";
-import useAddCoupon from "src/customHooks/couponHooks/useAddCoupon";
+import { ReceivedCouponType, couponType } from "src/types/couponTypes";
 
 import Grid from "@mui/material/Unstable_Grid2";
 import {
@@ -23,34 +22,56 @@ import {
 } from "@mui/material";
 import { ReceivedStoreType } from "src/types/storeTypes";
 import useGetStore from "src/customHooks/storeHooks/useGetStore";
+import useUpdatedCoupon from "src/customHooks/couponHooks/useUpdateCoupon";
 
-export default function AddCouponModal({
+export default function UpdateCouponModal({
+  coupon,
   open,
-  handleAddCouponClose,
+  handleUpdateCouponClose,
 }: {
+  coupon: ReceivedCouponType;
   open: boolean;
-  handleAddCouponClose: () => void;
+  handleUpdateCouponClose: () => void;
 }) {
   const { data } = useGetStore();
   const storesData: ReceivedStoreType[] = data?.data.data;
   const storeList = storesData?.map((store) => {
     return <MenuItem value={store.id}>{store.name_en}</MenuItem>;
   });
-  const { register, control, handleSubmit, formState } = useForm<couponType>();
+  const { register, control, handleSubmit, formState, reset } =
+    useForm<couponType>();
   const { errors, isSubmitting } = formState;
-  const { mutate,isSuccess } = useAddCoupon();
+  const { mutate, isSuccess } = useUpdatedCoupon(coupon.id);
   const onSubmit = (data: couponType) => {
     mutate(data);
   };
+  React.useEffect(() => {
+    if (coupon) {
+      reset({
+        title_ar: coupon.title_ar,
+        title_en: coupon.title_en,
+        code: coupon.code,
+        status: coupon.status,
+        featured: coupon.featured,
+        start_date: coupon.start_date,
+        end_date: coupon.end_date,
+        store_id: coupon.store_id,
+      });
+    }
+    {
+    }
+  }, [reset, coupon]);
   React.useMemo(() => {
     if (isSuccess) {
-      handleAddCouponClose();
+      handleUpdateCouponClose();
     }
   }, [isSuccess]);
   return (
     <React.Fragment>
-      <Dialog open={open} onClose={handleAddCouponClose} fullWidth>
-        <DialogTitle sx={{ color: "primary.main" }}>Add New Coupon</DialogTitle>
+      <Dialog open={open} onClose={handleUpdateCouponClose} fullWidth>
+        <DialogTitle sx={{ color: "primary.main" }}>
+          Update New Coupon
+        </DialogTitle>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogContent>
             <Grid container spacing={2}>
@@ -122,7 +143,8 @@ export default function AddCouponModal({
                   <Select
                     labelId="store-label"
                     id="store-select"
-                    label="Store"
+                    label="store"
+                    defaultValue={coupon.store_id}
                     {...register("store_id", {
                       required: "Store  is required",
                       valueAsNumber: true,
@@ -138,14 +160,14 @@ export default function AddCouponModal({
               </Grid>
               <Grid xs={6} sx={{ display: "flex", justifyContent: "center" }}>
                 <FormControlLabel
-                  control={<Switch defaultChecked />}
+                  control={<Switch defaultChecked={coupon.status} />}
                   label="Status"
                   {...register("status")}
                 />
               </Grid>
               <Grid xs={6} sx={{ display: "flex", justifyContent: "center" }}>
                 <FormControlLabel
-                  control={<Switch defaultChecked />}
+                  control={<Switch defaultChecked={coupon.featured} />}
                   label="Featured"
                   {...register("featured")}
                 />
@@ -153,9 +175,9 @@ export default function AddCouponModal({
             </Grid>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleAddCouponClose}>Cancel</Button>
+            <Button onClick={handleUpdateCouponClose}>Cancel</Button>
             <Button type="submit" disabled={isSubmitting}>
-              Add Coupon
+              Update Coupon
             </Button>
           </DialogActions>
         </form>

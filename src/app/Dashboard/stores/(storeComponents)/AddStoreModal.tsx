@@ -7,7 +7,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useForm } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
 import Grid from "@mui/material/Unstable_Grid2";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -22,9 +21,7 @@ import {
   Select,
   Switch,
 } from "@mui/material";
-import useGetCategory from "src/customHooks/categoryHooks/useGetCategory";
 import { categoryType } from "src/types/categoryTypes";
-import { Toaster } from "react-hot-toast";
 
 export default function AddStoreModal({
   open,
@@ -35,16 +32,19 @@ export default function AddStoreModal({
   handleAddStoreClose: () => void;
   categoryData: categoryType[];
 }) {
-  const { register, control, handleSubmit, formState, watch, setValue, reset } =
+  const { register, control, handleSubmit, formState, watch, setValue } =
     useForm<storeType>();
-  const imageSrc = watch("image");
   const { errors, isSubmitting } = formState;
+  const imageSrc = watch("image");
   const handleFilePondUpdate = (fileItems: any[]) => {
     setValue(
       "image",
       fileItems.map((fileItem) => fileItem.file),
       { shouldValidate: true }
     );
+    React.useEffect(() => {
+      register("image", { required: "Image upload is required" });
+    }, [register]);
   };
   const { mutate, isSuccess } = useAddStore();
   const categoryList = categoryData?.map((category: categoryType) => {
@@ -55,9 +55,6 @@ export default function AddStoreModal({
       handleAddStoreClose();
     }
   }, [isSuccess]);
-  React.useEffect(() => {
-    register("image", { required: "Image upload is required" });
-  }, [register]);
 
   const onSubmit = (data: storeType) => {
     const formData = new FormData();
@@ -70,7 +67,7 @@ export default function AddStoreModal({
     formData.append("link_ar", data.link_ar);
     formData.append("description_ar", data.description_ar);
     formData.append("description_en", data.description_en);
-    formData.append("category_id", data.category_id);
+    formData.append("category_id", data.category_id.toString());
     formData.append("meta_title_ar", data.meta_title_ar);
     formData.append("meta_title_en", data.meta_title_en);
     formData.append("meta_description_en", data.meta_description_en);
@@ -374,25 +371,7 @@ export default function AddStoreModal({
             </Button>
           </DialogActions>
         </form>
-        {/* <DevTool control={control} /> */}
       </Dialog>
-      <Toaster
-        toastOptions={{
-          position: "bottom-left",
-          success: {
-            style: {
-              background: "green",
-              color: "white",
-            },
-          },
-          error: {
-            style: {
-              background: "red",
-              color: "white",
-            },
-          },
-        }}
-      />
     </React.Fragment>
   );
 }

@@ -2,7 +2,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { storeUrl } from "src/app/_service/Service";
+import { productUrl } from "src/app/_service/Service";
 import { useAuth } from "src/app/context/AuthContext";
 interface AxiosError {
   response?: {
@@ -11,11 +11,11 @@ interface AxiosError {
     };
   };
 }
-const useUpdatedStore = (id: number) => {
+const useAddProduct = () => {
   const { token, setToken } = useAuth();
   setToken(window.localStorage.getItem("token"));
-  const updateStoreRequest = (storeData: FormData) => {
-    return axios.post(`${storeUrl}/${id}`, storeData, {
+  const addProductRequest = (productData: FormData) => {
+    return axios.post(productUrl, productData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -23,18 +23,18 @@ const useUpdatedStore = (id: number) => {
   };
   const queryClient = useQueryClient();
   const { mutate, data, error, isPending, isSuccess, isError } = useMutation({
-    mutationKey: ["updateStore", id],
-    mutationFn: updateStoreRequest,
+    mutationKey: ["addProduct"],
+    mutationFn: addProductRequest,
     onSuccess: (data) => {
       if (data.data.success) {
         toast.success(`${data.data.message}`);
-        queryClient.invalidateQueries({ queryKey: ["AllStore"] });
+        queryClient.invalidateQueries({ queryKey: ["AllProducts"] });
       } else {
+        console.log(data);
         toast.error(`${data.data.message}`);
       }
     },
     onError: (error: AxiosError) => {
-      console.log(error)
       toast.error(`${error?.response?.data.message}`);
     },
   });
@@ -42,4 +42,4 @@ const useUpdatedStore = (id: number) => {
   return { mutate, data, error, isPending, isSuccess, isError };
 };
 
-export default useUpdatedStore;
+export default useAddProduct;

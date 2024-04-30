@@ -1,7 +1,6 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useForm } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
 import useAdminSignIn from "../../customHooks/useAdminSignIn"; // Import the custom hook
 import Image from "next/image";
 import { loginData } from "../../types/loginTypes";
@@ -96,7 +95,6 @@ export default function Home() {
           </Button>
         </Stack>
       </form>
-      <DevTool control={control} />
       <Toaster
         toastOptions={{
           position: "bottom-left",

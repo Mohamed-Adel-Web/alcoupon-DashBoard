@@ -1,10 +1,14 @@
 export interface couponType {
   title_ar: string;
   title_en: string;
-  code: number;
+  code: string;
   status: boolean;
   featured: boolean;
   start_date: Date;
   end_date: Date;
   store_id: number;
+  store_name_en: string;
+}
+export interface ReceivedCouponType extends couponType {
+  id: number;
 }

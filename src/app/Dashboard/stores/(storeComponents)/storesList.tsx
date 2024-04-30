@@ -38,7 +38,7 @@ export default function StoresList({
     link_ar: "",
     description_ar: "",
     description_en: "",
-    category_id: "",
+    category_id: 0,
     meta: {
       meta_title_ar: "",
       meta_title_en: "",

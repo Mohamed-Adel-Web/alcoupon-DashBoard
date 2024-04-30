@@ -2,28 +2,28 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import Heading from "../DashboardSharedComponent/Heading";
-import CouponsList from "./(couponsComponents)/CouponsList";
-import AddCouponModal from "./(couponsComponents)/AddCouponModal";
 import { Toaster } from "react-hot-toast";
-export default function CouponsPage() {
-  const [openAddCoupon, setOpenAddCoupon] = useState<boolean>(false);
-  const handleAddCouponClose: () => void = () => {
-    setOpenAddCoupon(false);
+import ProductList from "./(productComponent)/ProductsList";
+import AddProductModal from "./(productComponent)/AddProductModal";
+export default function ProductsPage() {
+  const [openAddProduct, setOpenAddProduct] = useState<boolean>(false);
+  const handleAddProductClose: () => void = () => {
+    setOpenAddProduct(false);
   };
-  const handleAddCouponOpen: () => void = () => {
-    setOpenAddCoupon(true);
+  const handleAddProductOpen: () => void = () => {
+    setOpenAddProduct(true);
   };
   return (
     <Box sx={{ margin: "1rem 0" }}>
       <Heading
-        title="Coupons"
-        handleOpen={handleAddCouponOpen}
-        buttonTitle="Add new coupon"
+        title="Products"
+        handleOpen={handleAddProductOpen}
+        buttonTitle="Add new product"
       />
-      <CouponsList />
-      <AddCouponModal
-        open={openAddCoupon}
-        handleAddCouponClose={handleAddCouponClose}
+      <ProductList />
+      <AddProductModal
+        open={openAddProduct}
+        handleAddProductClose={handleAddProductClose}
       />
       <Toaster
         toastOptions={{

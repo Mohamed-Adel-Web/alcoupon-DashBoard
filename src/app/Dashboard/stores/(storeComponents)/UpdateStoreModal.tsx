@@ -24,7 +24,6 @@ import {
   Switch,
 } from "@mui/material";
 import { categoryType } from "src/types/categoryTypes";
-import { tree } from "next/dist/build/templates/app-page";
 export default function UpdatedStoreModal({
   store,
   open,
@@ -86,7 +85,7 @@ export default function UpdatedStoreModal({
       formData.append("image", data?.image[0]);
     }
     if (data.category_id) {
-      formData.append("category_id", data.category_id);
+      formData.append("category_id", data.category_id.toString());
     }
     formData.append("featured", data.featured ? "featured" : "not-featured");
     formData.append("status", data.status ? "active" : "in-active");
@@ -102,6 +101,11 @@ export default function UpdatedStoreModal({
     formData.append("meta_keyword_en", data.meta_keyword_en);
     mutate(formData);
   };
+  React.useMemo(() => {
+    if (isSuccess) {
+      handleUpdatedStoreClose();
+    }
+  }, [isSuccess]);
 
   return (
     <React.Fragment>
@@ -215,6 +219,7 @@ export default function UpdatedStoreModal({
                     labelId="category-label"
                     id="category-select"
                     label="Category"
+                    defaultValue={2}
                     {...register("category_id")}
                     error={!!errors.category_id}
                   >
@@ -323,15 +328,18 @@ export default function UpdatedStoreModal({
 
               <Grid xs={6} sx={{ display: "flex", justifyContent: "center" }}>
                 <FormControlLabel
-                  control={<Switch />}
+                  control={
+                    <Switch defaultChecked={store.status === "active"} />
+                  }
                   label="Status"
                   {...register("status")}
                 />
               </Grid>
               <Grid xs={6} sx={{ display: "flex", justifyContent: "center" }}>
                 <FormControlLabel
-                  value={store.featured === "featured"}
-                  control={<Switch />}
+                  control={
+                    <Switch defaultChecked={store.featured === "featured"} />
+                  }
                   label="Featured"
                   {...register("featured")}
                 />
@@ -345,7 +353,6 @@ export default function UpdatedStoreModal({
             </Button>
           </DialogActions>
         </form>
-        {/* <DevTool control={control} /> */}
       </Dialog>
     </React.Fragment>
   );

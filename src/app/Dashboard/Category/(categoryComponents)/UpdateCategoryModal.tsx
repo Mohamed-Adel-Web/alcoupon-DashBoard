@@ -7,7 +7,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useForm } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
 import { categoryType } from "src/types/categoryTypes";
 import Grid from "@mui/material/Unstable_Grid2";
 import useUpdateCategory from "src/customHooks/categoryHooks/useUpdateCategory";
@@ -85,7 +84,6 @@ export default function UpdateCategoryModal({
           </Button>
         </DialogActions>
       </form>
-      <DevTool control={control} />
     </Dialog>
   );
 }

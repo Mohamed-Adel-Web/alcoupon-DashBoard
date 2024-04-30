@@ -80,25 +80,7 @@ export default function AddCategoryModal({
             </Button>
           </DialogActions>
         </form>
-        <DevTool control={control} />
       </Dialog>
-      <Toaster
-        toastOptions={{
-          position: "bottom-left",
-          success: {
-            style: {
-              background: "green",
-              color: "white",
-            },
-          },
-          error: {
-            style: {
-              background: "red",
-              color: "white",
-            },
-          },
-        }}
-      />
     </React.Fragment>
   );
 }

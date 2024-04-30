@@ -6,6 +6,7 @@ import Heading from "../DashboardSharedComponent/Heading";
 import AddCategoryModal from "./(categoryComponents)/AddCategoryModal";
 import CategoryList from "./(categoryComponents)/CategoryList";
 import { useAuth } from "src/app/context/AuthContext";
+import { Toaster } from "react-hot-toast";
 export default function CategoryPage() {
   const { setToken } = useAuth();
 
@@ -27,6 +28,23 @@ export default function CategoryPage() {
       <AddCategoryModal
         open={openAddCategory}
         handleAddCategoryClose={handleAddCategoryClose}
+      />
+      <Toaster
+        toastOptions={{
+          position: "bottom-left",
+          success: {
+            style: {
+              background: "green",
+              color: "white",
+            },
+          },
+          error: {
+            style: {
+              background: "red",
+              color: "white",
+            },
+          },
+        }}
       />
     </Box>
   );
