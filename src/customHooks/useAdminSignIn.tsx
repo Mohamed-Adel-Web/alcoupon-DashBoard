@@ -5,6 +5,7 @@ import { loginData } from "../types/loginTypes";
 import { loginUrl } from "src/app/_service/Service";
 import toast from "react-hot-toast";
 import { useAuth } from "src/app/context/AuthContext";
+import Cookies from "js-cookie";
 const useAdminSignIn = () => {
   const { token, setToken } = useAuth();
   const signInRequest = (adminData: loginData) => {
@@ -17,8 +18,9 @@ const useAdminSignIn = () => {
     onSuccess: (data) => {
       if (data.data.success) {
         toast.success(`${data.data.message}`);
-        window.localStorage.setItem("token", data.data.data.token);
+        Cookies.set("token", data.data.data.token, { expires: 30 });
         setToken(data.data.data.token);
+        window.location.href="/Dashboard"
       } else {
         toast.error(`${data.data.message}`);
       }

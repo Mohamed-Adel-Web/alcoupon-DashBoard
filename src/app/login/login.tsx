@@ -5,8 +5,9 @@ import useAdminSignIn from "../../customHooks/useAdminSignIn"; // Import the cus
 import Image from "next/image";
 import { loginData } from "../../types/loginTypes";
 import { Toaster } from "react-hot-toast";
+import { cookies } from "next/headers";
 
-export default function Home() {
+export default function Login() {
   function TestClick() {
     console.log("TestClick");
   }
@@ -18,6 +19,7 @@ export default function Home() {
   const onSubmit = (loginData: loginData) => {
     mutate(loginData);
   };
+  
 
   return (
     <Box

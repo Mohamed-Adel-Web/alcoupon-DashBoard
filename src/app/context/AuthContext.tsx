@@ -2,8 +2,8 @@
 
 import { useContext, createContext, useState } from "react";
 interface AuthContextType {
-  token: string | null;
-  setToken: (token: string | null) => void;
+  token: string | null | undefined;
+  setToken: (token: string | null | undefined) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -15,7 +15,7 @@ export default function AuthProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [token, setToken] = useState<string | null>("");
+  const [token, setToken] = useState<string | null | undefined>("");
   return (
     <AuthContext.Provider
       value={{

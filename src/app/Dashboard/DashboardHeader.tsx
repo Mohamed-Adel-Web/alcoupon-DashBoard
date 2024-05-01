@@ -15,12 +15,15 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Tooltip } from "@mui/material";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 export default function DashboardHeader({
   handleDrawerOpen,
 }: {
   handleDrawerOpen: () => void;
 }) {
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -61,7 +64,15 @@ export default function DashboardHeader({
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem
+        onClick={() => {
+          Cookies.remove("token");
+          handleMenuClose();
+          router.push("/login");
+        }}
+      >
+        Logout
+      </MenuItem>
     </Menu>
   );
   const mobileMenuId = "primary-search-account-menu-mobile";

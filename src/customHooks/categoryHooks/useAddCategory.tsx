@@ -5,10 +5,13 @@ import toast from "react-hot-toast";
 import { categoryType } from "src/types/categoryTypes";
 import { categoryUrl } from "src/app/_service/Service";
 import { useAuth } from "src/app/context/AuthContext";
+import Cookies from "js-cookie";
 const useAddCategory = () => {
   const { token, setToken } = useAuth();
-  setToken(window.localStorage.getItem("token"));
+  setToken(Cookies.get("token"));
   const addCategoryRequest = (categoryData: categoryType) => {
+    console.log(token)
+
     return axios.post(categoryUrl, categoryData, {
       headers: {
         Authorization: `Bearer ${token}`,

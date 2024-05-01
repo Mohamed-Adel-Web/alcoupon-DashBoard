@@ -1,12 +1,13 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { couponUrl } from "src/app/_service/Service";
 import { useAuth } from "src/app/context/AuthContext";
 
 const useGetCoupon = () => {
   const { token, setToken } = useAuth();
-  setToken(window.localStorage.getItem("token"));
+  setToken(Cookies.get("token"));
   const getCouponRequest = () => {
     return axios.get( couponUrl, {
       headers: {

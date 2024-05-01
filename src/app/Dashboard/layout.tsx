@@ -50,10 +50,7 @@ export default function DashboardLayout({
               <Container maxWidth="xl">{children}</Container>
             </Grid>
           </Grid>
-          <ReactQueryDevtools
-            initialIsOpen={false}
-            buttonPosition="bottom-right"
-          />
+
         </QueryClientProvider>
       </ThemeProvider>
     </>

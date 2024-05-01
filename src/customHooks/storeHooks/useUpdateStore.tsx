@@ -1,6 +1,7 @@
 "use client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { storeUrl } from "src/app/_service/Service";
 import { useAuth } from "src/app/context/AuthContext";
@@ -13,7 +14,7 @@ interface AxiosError {
 }
 const useUpdatedStore = (id: number) => {
   const { token, setToken } = useAuth();
-  setToken(window.localStorage.getItem("token"));
+  setToken(Cookies.get("token"));
   const updateStoreRequest = (storeData: FormData) => {
     return axios.post(`${storeUrl}/${id}`, storeData, {
       headers: {
@@ -34,7 +35,7 @@ const useUpdatedStore = (id: number) => {
       }
     },
     onError: (error: AxiosError) => {
-      console.log(error)
+      console.log(error);
       toast.error(`${error?.response?.data.message}`);
     },
   });

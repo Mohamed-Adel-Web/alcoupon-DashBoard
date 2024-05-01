@@ -1,4 +1,3 @@
-import { Image } from 'next/image';
 export interface productType {
   title_en: string;
   title_ar: string;

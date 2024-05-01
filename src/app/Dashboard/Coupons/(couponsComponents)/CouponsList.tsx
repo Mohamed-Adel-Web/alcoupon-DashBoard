@@ -1,5 +1,5 @@
 "use client";
-import { Box, IconButton } from "@mui/material";
+import { Box, CircularProgress, IconButton } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import Image from "next/image";
 import Tooltip from "@mui/material/Tooltip";
@@ -38,7 +38,7 @@ export default function CouponsList() {
     store_id: 0,
     store_name_en: "",
   });
-  const { data } = useGetCoupon();
+  const { data, isPending } = useGetCoupon();
   const couponData: ReceivedCouponType[] = data?.data.data;
   const couponsList = couponData?.map((coupon) => {
     return (
@@ -127,7 +127,13 @@ export default function CouponsList() {
       >
         {couponsTitlesList}
       </Grid>
-      {couponsList}
+      {isPending ? (
+        <Box sx={{ display: "flex", justifyContent: "center", height: "80vh",alignItems:"center" }}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        couponsList
+      )}
       <UpdateCouponModal
         coupon={coupon}
         open={openUpdateCoupon}

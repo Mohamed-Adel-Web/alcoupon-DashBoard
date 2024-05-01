@@ -5,10 +5,11 @@ import toast from "react-hot-toast";
 import { categoryType } from "src/types/categoryTypes";
 import { useAuth } from "src/app/context/AuthContext";
 import { categoryUrl } from "src/app/_service/Service";
+import Cookies from "js-cookie";
 
 const useUpdatedCategory = (id: number | undefined) => {
   const { token, setToken } = useAuth();
-  setToken(window.localStorage.getItem("token"));
+  setToken(Cookies.get("token"));
   const updateCategoryRequest = (categoryData: categoryType) => {
     return axios.put(`${categoryUrl}/${id}`, categoryData, {
       headers: {

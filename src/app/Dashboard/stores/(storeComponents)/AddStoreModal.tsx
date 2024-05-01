@@ -42,10 +42,10 @@ export default function AddStoreModal({
       fileItems.map((fileItem) => fileItem.file),
       { shouldValidate: true }
     );
-    React.useEffect(() => {
-      register("image", { required: "Image upload is required" });
-    }, [register]);
   };
+  React.useEffect(() => {
+    register("image", { required: "Image upload is required" });
+  }, [register]);
   const { mutate, isSuccess } = useAddStore();
   const categoryList = categoryData?.map((category: categoryType) => {
     return <MenuItem value={category.id}>{category.name_en}</MenuItem>;

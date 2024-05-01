@@ -1,5 +1,5 @@
 "use client";
-import { Box, IconButton } from "@mui/material";
+import { Box, CircularProgress, IconButton } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import Image from "next/image";
 import Tooltip from "@mui/material/Tooltip";
@@ -25,7 +25,7 @@ export default function StoresList({
 }: {
   categoryData: categoryType[];
 }) {
-  const { data } = useGetStore();
+  const { data, isPending } = useGetStore();
   const storesData: ReceivedStoreType[] = data?.data.data;
   const [store, setStore] = useState<ReceivedStoreType>({
     id: 0,
@@ -38,7 +38,7 @@ export default function StoresList({
     link_ar: "",
     description_ar: "",
     description_en: "",
-    category_id: 0,
+    category_id: [0],
     meta: {
       meta_title_ar: "",
       meta_title_en: "",
@@ -91,10 +91,10 @@ export default function StoresList({
           />
         </Grid>
         <Grid xs={2} sx={{ display: "flex", justifyContent: "center" }}>
-          {store.featured }
+          {store.featured}
         </Grid>{" "}
         <Grid xs={2} sx={{ display: "flex", justifyContent: "center" }}>
-          {store.status }
+          {store.status}
         </Grid>{" "}
         <Grid xs={2} sx={{ display: "flex", justifyContent: "center" }}>
           <Tooltip title="Edit">
@@ -137,7 +137,20 @@ export default function StoresList({
       >
         {storesTitlesList}
       </Grid>
-      {storesList}
+      {isPending ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            height: "80vh",
+            alignItems: "center",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        storesList
+      )}
       <UpdatedStoreModal
         store={store}
         open={openUpdateStore}

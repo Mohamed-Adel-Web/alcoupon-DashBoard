@@ -6,6 +6,7 @@ import { categoryType } from "src/types/categoryTypes";
 import { useAuth } from "src/app/context/AuthContext";
 import { couponUrl } from "src/app/_service/Service";
 import { couponType } from "src/types/couponTypes";
+import Cookies from "js-cookie";
 interface AxiosError {
   response?: {
     data: {
@@ -15,7 +16,7 @@ interface AxiosError {
 }
 const useUpdatedCoupon = (id: number | undefined) => {
   const { token, setToken } = useAuth();
-  setToken(window.localStorage.getItem("token"));
+  setToken(Cookies.get("token"));
   const updateCouponRequest = (couponData: couponType) => {
     return axios.put(`${couponUrl}/${id}`, couponData, {
       headers: {

@@ -1,5 +1,5 @@
 "use client";
-import { Box, IconButton } from "@mui/material";
+import { Box, CircularProgress, IconButton } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import Tooltip from "@mui/material/Tooltip";
 import { categoryType } from "src/types/categoryTypes";
@@ -24,7 +24,7 @@ const categoryTitlesList = categoryTitles.map((title) => {
 });
 
 export default function CategoryList() {
-  const { data } = useGetCategory();
+  const { data, isPending } = useGetCategory();
   const categoryData: categoryType[] = data?.data.data;
   const [category, setCategory] = useState<categoryType>({
     id: 1,
@@ -111,7 +111,13 @@ export default function CategoryList() {
       >
         {categoryTitlesList}
       </Grid>
-      {categoryList}
+      {isPending ? (
+        <Box sx={{ display: "flex", justifyContent: "center",alignItems:"center",height:"80vh" }}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        categoryList
+      )}
       <UpdateCategoryModal
         category={category}
         open={openUpdateCategory}

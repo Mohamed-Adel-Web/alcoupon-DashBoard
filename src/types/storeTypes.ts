@@ -38,12 +38,14 @@ export interface ReceivedStoreType
     | "meta_keyword_en"
     | "featured"
     | "status"
+    | "category_id"
   > {
   id: number;
   image: string;
   meta: Meta;
   featured: string;
   status: string;
+  category_id: number[];
 }
 export interface couponStore
   extends Omit<storeType, "image" | "featured" | "status"> {

@@ -65,7 +65,6 @@ export default function UpdatedStoreModal({
         link_ar: store.link_ar,
         description_ar: store.description_ar,
         description_en: store.description_en,
-        category_id: store.category_id,
         meta_title_ar: store.meta.meta_title_ar,
         meta_title_en: store.meta.meta_title_en,
         meta_description_en: store.meta.meta_description_en,
@@ -219,7 +218,7 @@ export default function UpdatedStoreModal({
                     labelId="category-label"
                     id="category-select"
                     label="Category"
-                    defaultValue={2}
+                    defaultValue={store.category_id[0]}
                     {...register("category_id")}
                     error={!!errors.category_id}
                   >

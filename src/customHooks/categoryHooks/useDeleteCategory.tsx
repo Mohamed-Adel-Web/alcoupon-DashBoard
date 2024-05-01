@@ -1,13 +1,14 @@
 "use client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { categoryUrl } from "src/app/_service/Service";
 import { useAuth } from "src/app/context/AuthContext";
 
 const useDeleteStore = (id: number | undefined) => {
   const { token, setToken } = useAuth();
-  setToken(window.localStorage.getItem("token"));
+  setToken(Cookies.get("token"));
   const deleteStoreRequest = () => {
     return axios.delete(`${categoryUrl}/${id}`, {
       headers: {

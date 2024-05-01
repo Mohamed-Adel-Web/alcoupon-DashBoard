@@ -1,5 +1,5 @@
 "use client";
-import { Box, IconButton } from "@mui/material";
+import { Box, CircularProgress, IconButton } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import Tooltip from "@mui/material/Tooltip";
 import { categoryType } from "src/types/categoryTypes";
@@ -8,6 +8,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
 import useGetProduct from "src/customHooks/productHooks/useGetHooks";
 import { ReceivedProductType } from "src/types/productTypes";
+import DeleteProductModal from "./DeleteProductModal";
+import UpdateProductModal from "./UpdateProductModal";
 
 const productsTitles: string[] = ["title", "store name", "image", "Action"];
 const categoryTitlesList = productsTitles.map((title) => {
@@ -19,9 +21,24 @@ const categoryTitlesList = productsTitles.map((title) => {
 });
 
 export default function ProductsList() {
-  const { data } = useGetProduct();
-  const productData: ReceivedProductType[] = data?.data.data;
+  const { data, isPending } = useGetProduct();
+  const [openDeleteProduct, setOpenDeleteProduct] = useState<boolean>(false);
+  const [openUpdateProduct, setOpenUpdateProduct] = useState<boolean>(false);
 
+  const handleUpdateProductClose: () => void = () => {
+    setOpenUpdateProduct(false);
+  };
+  const handleUpdateProductOpen: () => void = () => {
+    setOpenUpdateProduct(true);
+  };
+  const handleDeleteProductClose: () => void = () => {
+    setOpenDeleteProduct(false);
+  };
+  const handleDeleteProductOpen: () => void = () => {
+    setOpenDeleteProduct(true);
+  };
+  const productData: ReceivedProductType[] = data?.data.data;
+  const [product, setProduct] = useState<ReceivedProductType | undefined>();
   const productList = productData?.map((product) => {
     return (
       <Grid
@@ -55,12 +72,22 @@ export default function ProductsList() {
         </Grid>
         <Grid xs={3} sx={{ display: "flex", justifyContent: "center" }}>
           <Tooltip title="Edit">
-            <IconButton onClick={() => {}}>
+            <IconButton
+              onClick={() => {
+                setProduct(product);
+                handleUpdateProductOpen();
+              }}
+            >
               <EditIcon sx={{ color: "primary.main" }} />
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete">
-            <IconButton onClick={() => {}}>
+            <IconButton
+              onClick={() => {
+                setProduct(product);
+                handleDeleteProductOpen();
+              }}
+            >
               <DeleteIcon sx={{ color: "#d50000" }} />
             </IconButton>
           </Tooltip>
@@ -84,22 +111,31 @@ export default function ProductsList() {
       >
         {categoryTitlesList}
       </Grid>
-      {productList}
+      {isPending ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            height: "80vh",
+            alignItems: "center",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        productList
+      )}
+
+      <DeleteProductModal
+        product={product}
+        open={openDeleteProduct}
+        handleDeleteProductClose={handleDeleteProductClose}
+      />
+      <UpdateProductModal
+        product={product}
+        open={openUpdateProduct}
+        handleUpdateProductClose={handleUpdateProductClose}
+      />
     </Box>
   );
-}
-{
-  /* {categoryList}
-      <UpdateCategoryModal
-        category={category}
-        open={openUpdateCategory}
-        handleUpdateCategoryClose={handleUpdateCategoryClose}
-      />
-      <DeleteCategoryModal
-        category={category}
-        open={openDeleteCategory}
-        handleDeleteCategoryClose={handleDeleteCategoryClose} */
-}
-{
-  /* /> */
 }

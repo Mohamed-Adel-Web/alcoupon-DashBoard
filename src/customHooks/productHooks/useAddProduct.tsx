@@ -1,6 +1,7 @@
 "use client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { productUrl } from "src/app/_service/Service";
 import { useAuth } from "src/app/context/AuthContext";
@@ -13,7 +14,7 @@ interface AxiosError {
 }
 const useAddProduct = () => {
   const { token, setToken } = useAuth();
-  setToken(window.localStorage.getItem("token"));
+  setToken(Cookies.get("token"));
   const addProductRequest = (productData: FormData) => {
     return axios.post(productUrl, productData, {
       headers: {
