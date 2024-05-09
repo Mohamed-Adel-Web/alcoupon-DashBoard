@@ -13,11 +13,11 @@ export default function DeleteCategoryModal({
   open,
   handleDeleteCategoryClose,
 }: {
-  category: categoryType;
+  category: categoryType | undefined;
   open: boolean;
   handleDeleteCategoryClose: () => void;
 }) {
-  const { mutate, isSuccess } = useDeleteCategory(category.id);
+  const { mutate, isSuccess } = useDeleteCategory(category?.id);
   React.useMemo(() => {
     if (isSuccess) {
       handleDeleteCategoryClose();

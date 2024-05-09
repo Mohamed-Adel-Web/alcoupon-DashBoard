@@ -74,12 +74,17 @@ export default function AddStoreModal({
     formData.append("meta_description_ar", data.meta_description_ar);
     formData.append("meta_keyword_ar", data.meta_keyword_ar);
     formData.append("meta_keyword_en", data.meta_keyword_en);
+    formData.append("title_en", data.title_en);
+    formData.append("title_ar", data.title_ar);
+    formData.append("about_en", data.about_en);
+    formData.append("about_ar", data.about_ar);
+    formData.append("allstore", data.allstore ? "all-store" : "not-all-store");
     mutate(formData);
   };
 
   return (
     <React.Fragment>
-      <Dialog open={open} onClose={handleAddStoreClose} fullWidth>
+      <Dialog open={open} onClose={handleAddStoreClose} maxWidth={"lg"}>
         <DialogTitle sx={{ color: "primary.main" }}>Add New Store</DialogTitle>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogContent>
@@ -115,11 +120,56 @@ export default function AddStoreModal({
                       value: 3,
                       message: "minimum length is 3 character",
                     },
+                    maxLength: {
+                      value: 140,
+                      message: "maximum length is 140 character",
+                    },
                   })}
                   error={!!errors.name_ar}
                   helperText={errors.name_ar?.message}
                 />
               </Grid>
+              <Grid md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  id="Store title in English"
+                  label="Store title in English"
+                  type="text"
+                  variant="outlined"
+                  {...register("title_en", {
+                    required: "Store title is required",
+                    minLength: {
+                      value: 3,
+                      message: "minimum length is 3 character",
+                    },
+                    maxLength: {
+                      value: 140,
+                      message: "maximum length is 140 character",
+                    },
+                  })}
+                  error={!!errors.title_en}
+                  helperText={errors.title_en?.message}
+                />
+              </Grid>
+              <Grid md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  id="Store title in Arabic"
+                  label="Store title in Arabic"
+                  type="text"
+                  variant="outlined"
+                  {...register("title_ar", {
+                    required: "Store name is required",
+                    minLength: {
+                      value: 3,
+                      message: "minimum length is 3 character",
+                    },
+                  })}
+                  error={!!errors.title_ar}
+                  helperText={errors.title_ar?.message}
+                />
+              </Grid>
+
               <Grid md={6} xs={12}>
                 <TextField
                   fullWidth
@@ -198,6 +248,44 @@ export default function AddStoreModal({
                 />
               </Grid>
               <Grid md={6} xs={12}>
+                <TextField
+                  multiline
+                  fullWidth
+                  id="Store About in English"
+                  label="Store About in English"
+                  type="text"
+                  variant="outlined"
+                  {...register("about_en", {
+                    required: "Store about is required",
+                    minLength: {
+                      value: 20,
+                      message: "minimum length is 20 character",
+                    },
+                  })}
+                  error={!!errors.about_en}
+                  helperText={errors.about_en?.message}
+                />
+              </Grid>
+              <Grid md={6} xs={12}>
+                <TextField
+                  multiline
+                  fullWidth
+                  id="Store About in Arabic"
+                  label="Store About in Arabic"
+                  type="text"
+                  variant="outlined"
+                  {...register("about_ar", {
+                    required: "Store about is required",
+                    minLength: {
+                      value: 20,
+                      message: "minimum length is 20 character",
+                    },
+                  })}
+                  error={!!errors.about_ar}
+                  helperText={errors.about_ar?.message}
+                />
+              </Grid>
+              <Grid md={6} xs={12}>
                 <FilePond
                   name="image"
                   files={imageSrc}
@@ -228,66 +316,53 @@ export default function AddStoreModal({
                   </FormHelperText>
                 </FormControl>
               </Grid>
-              <Grid md={6} xs={12}>
-                <TextField
-                  multiline
-                  fullWidth
-                  id="meta-title-ar"
-                  label="Meta Title in Arabic"
-                  type="text"
-                  variant="outlined"
-                  {...register("meta_title_ar", {
-                    required: "Meta title is required",
-                    minLength: {
-                      value: 3,
-                      message: "minimum length is 3 character",
-                    },
-                  })}
-                  error={!!errors.meta_title_ar}
-                  helperText={errors.meta_title_ar?.message}
-                />
-              </Grid>
 
               <Grid md={6} xs={12}>
                 <TextField
                   multiline
                   fullWidth
                   id="meta-title-en"
-                  label="Meta Title in English"
+                  label="SEO Title in English"
                   type="text"
                   variant="outlined"
                   {...register("meta_title_en", {
-                    required: "Meta title is required",
+                    required: "SEO title is required",
                     minLength: {
                       value: 3,
                       message: "minimum length is 3 character",
+                    },
+                    maxLength: {
+                      value: 63,
+                      message: "maximum length is 63 character",
                     },
                   })}
                   error={!!errors.meta_title_en}
                   helperText={errors.meta_title_en?.message}
                 />
               </Grid>
-
               <Grid md={6} xs={12}>
                 <TextField
                   multiline
                   fullWidth
-                  id="meta-description-ar"
-                  label="Meta Description in Arabic"
+                  id="meta-title-ar"
+                  label="SEO Title in Arabic"
                   type="text"
                   variant="outlined"
-                  {...register("meta_description_ar", {
-                    required: "Meta description is required",
+                  {...register("meta_title_ar", {
+                    required: "SEO title is required",
                     minLength: {
-                      value: 20,
-                      message: "minimum length is 20 character",
+                      value: 3,
+                      message: "minimum length is 3 character",
+                    },
+                    maxLength: {
+                      value: 63,
+                      message: "maximum length is 63 character",
                     },
                   })}
-                  error={!!errors.meta_description_ar}
-                  helperText={errors.meta_description_ar?.message}
+                  error={!!errors.meta_title_ar}
+                  helperText={errors.meta_title_ar?.message}
                 />
               </Grid>
-
               <Grid md={6} xs={12}>
                 <TextField
                   multiline
@@ -302,12 +377,57 @@ export default function AddStoreModal({
                       value: 20,
                       message: "minimum length is 20 character",
                     },
+                    maxLength: {
+                      value: 156,
+                      message: "maximum length is 156 character",
+                    },
                   })}
                   error={!!errors.meta_description_en}
                   helperText={errors.meta_description_en?.message}
                 />
               </Grid>
-
+              <Grid md={6} xs={12}>
+                <TextField
+                  multiline
+                  fullWidth
+                  id="meta-description-ar"
+                  label="Meta Description in Arabic"
+                  type="text"
+                  variant="outlined"
+                  {...register("meta_description_ar", {
+                    required: "Meta description is required",
+                    minLength: {
+                      value: 20,
+                      message: "minimum length is 20 character",
+                    },
+                    maxLength: {
+                      value: 156,
+                      message: "maximum length is 156 character",
+                    },
+                  })}
+                  error={!!errors.meta_description_ar}
+                  helperText={errors.meta_description_ar?.message}
+                />
+              </Grid>
+              <Grid md={6} xs={12}>
+                <TextField
+                  multiline
+                  fullWidth
+                  id="meta-keyword-en"
+                  label="Meta Keywords in English"
+                  type="text"
+                  variant="outlined"
+                  {...register("meta_keyword_en", {
+                    required: "Meta keywords are required",
+                    minLength: {
+                      value: 3,
+                      message: "minimum length is 3 character",
+                    },
+                  })}
+                  error={!!errors.meta_keyword_en}
+                  helperText={errors.meta_keyword_en?.message}
+                />
+              </Grid>
               <Grid md={6} xs={12}>
                 <TextField
                   multiline
@@ -328,25 +448,7 @@ export default function AddStoreModal({
                 />
               </Grid>
 
-              <Grid md={6} xs={12}>
-                <TextField
-                  multiline
-                  fullWidth
-                  id="meta-keyword-en"
-                  label="Meta Keywords in English"
-                  type="text"
-                  variant="outlined"
-                  {...register("meta_keyword_en", {
-                    required: "Meta keywords are required",
-                    minLength: {
-                      value: 3,
-                      message: "minimum length is 3 character",
-                    },
-                  })}
-                  error={!!errors.meta_keyword_en}
-                  helperText={errors.meta_keyword_en?.message}
-                />
-              </Grid>
+          
 
               <Grid xs={6} sx={{ display: "flex", justifyContent: "center" }}>
                 <FormControlLabel
@@ -360,6 +462,13 @@ export default function AddStoreModal({
                   control={<Switch defaultChecked />}
                   label="Featured"
                   {...register("featured")}
+                />
+              </Grid>
+              <Grid xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+                <FormControlLabel
+                  control={<Switch defaultChecked />}
+                  label="All stores"
+                  {...register("allstore")}
                 />
               </Grid>
             </Grid>

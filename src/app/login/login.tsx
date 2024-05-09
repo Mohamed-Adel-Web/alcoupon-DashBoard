@@ -5,6 +5,7 @@ import useAdminSignIn from "../../customHooks/useAdminSignIn"; // Import the cus
 import Image from "next/image";
 import { loginData } from "../../types/loginTypes";
 import { Toaster } from "react-hot-toast";
+import logo from "../../../public/images/logo.png";
 import { cookies } from "next/headers";
 
 export default function Login() {
@@ -19,7 +20,6 @@ export default function Login() {
   const onSubmit = (loginData: loginData) => {
     mutate(loginData);
   };
-  
 
   return (
     <Box
@@ -28,19 +28,12 @@ export default function Login() {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
-        backgroundImage:
-          "linear-gradient(225deg, #cb6683, #871e8d 37.53%, #5e63bd) ",
+        background:
+          " linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(157,113,50,0.5158438375350141) 72%)",
         flexDirection: "column",
       }}
     >
-      <Image
-        src={
-          "https://d318j52nj6xnxf.cloudfront.net/sites/all/themes/alcoupon/svg/logo-inverse.svg"
-        }
-        width={300}
-        height={100}
-        alt="alcoupon image"
-      />
+      <Image src={logo} width={300} height={100} alt="alcoupon image" />
 
       <form noValidate onSubmit={handleSubmit(onSubmit)}>
         <Stack
@@ -57,7 +50,7 @@ export default function Login() {
           <Typography
             variant="h5"
             component={"h2"}
-            sx={{ margin: "1rem", fontWeight: "900", color: "#89218D" }}
+            sx={{ margin: "1rem", fontWeight: "900", color: "#F7845D" }}
           >
             Admin Login
           </Typography>

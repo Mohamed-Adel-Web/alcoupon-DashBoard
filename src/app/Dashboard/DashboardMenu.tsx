@@ -11,6 +11,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import StoreIcon from "@mui/icons-material/Store";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import InventoryIcon from "@mui/icons-material/Inventory";
+import logo from "../../../public/images/logo.png";
 import Link from "next/link";
 export const DashboardMenuData: { title: string; icon: React.ReactElement }[] =
   [
@@ -74,9 +75,7 @@ export default function DashboardMenu({
         </Box>
         <Box className="menuHeader">
           <Image
-            src={
-              "https://d318j52nj6xnxf.cloudfront.net/sites/all/themes/alcoupon/svg/logo-inverse.svg"
-            }
+            src={logo}
             width={200}
             style={{ width: "100%" }}
             height={80}

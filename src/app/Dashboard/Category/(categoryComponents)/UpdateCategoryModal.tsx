@@ -15,14 +15,14 @@ export default function UpdateCategoryModal({
   open,
   handleUpdateCategoryClose,
 }: {
-  category: categoryType;
+  category: categoryType | undefined;
   open: boolean;
   handleUpdateCategoryClose: () => void;
 }) {
   const { register, control, handleSubmit, formState, reset } =
     useForm<categoryType>();
   const { errors, isSubmitting } = formState;
-  const { mutate, isSuccess } = useUpdateCategory(category.id);
+  const { mutate, isSuccess } = useUpdateCategory(category?.id);
   const onSubmit = (data: categoryType) => {
     mutate(data);
   };
@@ -36,6 +36,12 @@ export default function UpdateCategoryModal({
       reset({
         name_ar: category.name_ar,
         name_en: category.name_en,
+        meta_title_ar: category.meta_title_ar,
+        meta_title_en: category.meta_title_en,
+        meta_description_en: category.meta_description_en,
+        meta_description_ar: category.meta_description_ar,
+        meta_keyword_ar: category.meta_keyword_ar,
+        meta_keyword_en: category.meta_keyword_en,
       });
     }
     {
@@ -73,6 +79,136 @@ export default function UpdateCategoryModal({
                 })}
                 error={!!errors.name_ar}
                 helperText={errors.name_ar?.message}
+              />
+            </Grid>
+            <Grid md={6} xs={12}>
+              <TextField
+                multiline
+                fullWidth
+                id="meta-title-en"
+                label="SEO Title in English"
+                type="text"
+                variant="outlined"
+                {...register("meta_title_en", {
+                  required: "SEO title is required",
+                  minLength: {
+                    value: 3,
+                    message: "minimum length is 3 character",
+                  },
+                  maxLength: {
+                    value: 63,
+                    message: "maximum length is 63 character",
+                  },
+                })}
+                error={!!errors.meta_title_en}
+                helperText={errors.meta_title_en?.message}
+              />
+            </Grid>
+            <Grid md={6} xs={12}>
+              <TextField
+                multiline
+                fullWidth
+                id="meta-title-ar"
+                label="SEO Title in Arabic"
+                type="text"
+                variant="outlined"
+                {...register("meta_title_ar", {
+                  required: "SEO title is required",
+                  minLength: {
+                    value: 3,
+                    message: "minimum length is 3 character",
+                  },
+                  maxLength: {
+                    value: 63,
+                    message: "maximum length is 63 character",
+                  },
+                })}
+                error={!!errors.meta_title_ar}
+                helperText={errors.meta_title_ar?.message}
+              />
+            </Grid>
+            <Grid md={6} xs={12}>
+              <TextField
+                multiline
+                fullWidth
+                id="meta-description-en"
+                label="Meta Description in English"
+                type="text"
+                variant="outlined"
+                {...register("meta_description_en", {
+                  required: "Meta description is required",
+                  minLength: {
+                    value: 20,
+                    message: "minimum length is 20 character",
+                  },
+                  maxLength: {
+                    value: 156,
+                    message: "maximum length is 156 character",
+                  },
+                })}
+                error={!!errors.meta_description_en}
+                helperText={errors.meta_description_en?.message}
+              />
+            </Grid>
+            <Grid md={6} xs={12}>
+              <TextField
+                multiline
+                fullWidth
+                id="meta-description-ar"
+                label="Meta Description in Arabic"
+                type="text"
+                variant="outlined"
+                {...register("meta_description_ar", {
+                  required: "Meta description is required",
+                  minLength: {
+                    value: 20,
+                    message: "minimum length is 20 character",
+                  },
+                  maxLength: {
+                    value: 156,
+                    message: "maximum length is 156 character",
+                  },
+                })}
+                error={!!errors.meta_description_ar}
+                helperText={errors.meta_description_ar?.message}
+              />
+            </Grid>
+            <Grid md={6} xs={12}>
+              <TextField
+                multiline
+                fullWidth
+                id="meta-keyword-en"
+                label="Meta Keywords in English"
+                type="text"
+                variant="outlined"
+                {...register("meta_keyword_en", {
+                  required: "Meta keywords are required",
+                  minLength: {
+                    value: 3,
+                    message: "minimum length is 3 character",
+                  },
+                })}
+                error={!!errors.meta_keyword_en}
+                helperText={errors.meta_keyword_en?.message}
+              />
+            </Grid>
+            <Grid md={6} xs={12}>
+              <TextField
+                multiline
+                fullWidth
+                id="meta-keyword-ar"
+                label="Meta Keywords in Arabic"
+                type="text"
+                variant="outlined"
+                {...register("meta_keyword_ar", {
+                  required: "Meta keywords are required",
+                  minLength: {
+                    value: 3,
+                    message: "minimum length is 3 character",
+                  },
+                })}
+                error={!!errors.meta_keyword_ar}
+                helperText={errors.meta_keyword_ar?.message}
               />
             </Grid>
           </Grid>

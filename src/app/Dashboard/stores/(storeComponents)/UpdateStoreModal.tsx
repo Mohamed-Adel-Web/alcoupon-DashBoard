@@ -71,6 +71,10 @@ export default function UpdatedStoreModal({
         meta_description_ar: store.meta.meta_description_ar,
         meta_keyword_ar: store.meta.meta_keyword_ar,
         meta_keyword_en: store.meta.meta_keyword_en,
+        title_en: store.title_en,
+        title_ar: store.title_ar,
+        about_ar: store.about_ar,
+        about_en: store.about_en,
       });
     }
     {
@@ -98,6 +102,12 @@ export default function UpdatedStoreModal({
     formData.append("meta_description_ar", data.meta_description_ar);
     formData.append("meta_keyword_ar", data.meta_keyword_ar);
     formData.append("meta_keyword_en", data.meta_keyword_en);
+    formData.append("title_en", data.title_en);
+    formData.append("title_ar", data.title_ar);
+    formData.append("about_en", data.about_en);
+    formData.append("about_ar", data.about_ar);
+    formData.append("allstore", data.allstore ? "all-store" : "not-all-store");
+
     mutate(formData);
   };
   React.useMemo(() => {
@@ -108,7 +118,7 @@ export default function UpdatedStoreModal({
 
   return (
     <React.Fragment>
-      <Dialog open={open} onClose={handleUpdatedStoreClose} fullWidth>
+      <Dialog open={open} onClose={handleUpdatedStoreClose} maxWidth={"lg"}>
         <DialogTitle sx={{ color: "primary.main" }}>Update Store</DialogTitle>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogContent>
@@ -139,6 +149,42 @@ export default function UpdatedStoreModal({
                   })}
                   error={!!errors.name_ar}
                   helperText={errors.name_ar?.message}
+                />
+              </Grid>
+              <Grid md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  id="Store title in English"
+                  label="Store title in English"
+                  type="text"
+                  variant="outlined"
+                  {...register("title_en", {
+                    required: "Store title is required",
+                    minLength: {
+                      value: 3,
+                      message: "minimum length is 3 character",
+                    },
+                  })}
+                  error={!!errors.title_en}
+                  helperText={errors.title_en?.message}
+                />
+              </Grid>
+              <Grid md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  id="Store title in Arabic"
+                  label="Store title in Arabic"
+                  type="text"
+                  variant="outlined"
+                  {...register("title_ar", {
+                    required: "Store name is required",
+                    minLength: {
+                      value: 3,
+                      message: "minimum length is 3 character",
+                    },
+                  })}
+                  error={!!errors.title_ar}
+                  helperText={errors.title_ar?.message}
                 />
               </Grid>
               <Grid md={6} xs={12}>
@@ -198,6 +244,44 @@ export default function UpdatedStoreModal({
                   })}
                   error={!!errors.description_ar}
                   helperText={errors.description_ar?.message}
+                />
+              </Grid>
+              <Grid md={6} xs={12}>
+                <TextField
+                  multiline
+                  fullWidth
+                  id="Store About in English"
+                  label="Store About in English"
+                  type="text"
+                  variant="outlined"
+                  {...register("about_en", {
+                    required: "Store about is required",
+                    minLength: {
+                      value: 20,
+                      message: "minimum length is 20 character",
+                    },
+                  })}
+                  error={!!errors.about_en}
+                  helperText={errors.about_en?.message}
+                />
+              </Grid>
+              <Grid md={6} xs={12}>
+                <TextField
+                  multiline
+                  fullWidth
+                  id="Store About in Arabic"
+                  label="Store About in Arabic"
+                  type="text"
+                  variant="outlined"
+                  {...register("about_ar", {
+                    required: "Store about is required",
+                    minLength: {
+                      value: 20,
+                      message: "minimum length is 20 character",
+                    },
+                  })}
+                  error={!!errors.about_ar}
+                  helperText={errors.about_ar?.message}
                 />
               </Grid>
               <Grid md={6} xs={12}>
@@ -341,6 +425,15 @@ export default function UpdatedStoreModal({
                   }
                   label="Featured"
                   {...register("featured")}
+                />
+              </Grid>
+              <Grid xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+                <FormControlLabel
+                  control={
+                    <Switch defaultChecked={store.allstore === "all-store"} />
+                  }
+                  label="All stores"
+                  {...register("allstore")}
                 />
               </Grid>
             </Grid>

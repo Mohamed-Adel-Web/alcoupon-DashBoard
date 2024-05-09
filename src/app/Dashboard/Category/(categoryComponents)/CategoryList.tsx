@@ -26,11 +26,7 @@ const categoryTitlesList = categoryTitles.map((title) => {
 export default function CategoryList() {
   const { data, isPending } = useGetCategory();
   const categoryData: categoryType[] = data?.data.data;
-  const [category, setCategory] = useState<categoryType>({
-    id: 1,
-    name_en: "fashion",
-    name_ar: "موضة",
-  });
+  const [category, setCategory] = useState<categoryType | undefined>();
 
   const [openUpdateCategory, setOpenUpdateCategory] = useState<boolean>(false);
 
@@ -112,7 +108,14 @@ export default function CategoryList() {
         {categoryTitlesList}
       </Grid>
       {isPending ? (
-        <Box sx={{ display: "flex", justifyContent: "center",alignItems:"center",height:"80vh" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "80vh",
+          }}
+        >
           <CircularProgress />
         </Box>
       ) : (

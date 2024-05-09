@@ -6,8 +6,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useForm, Controller } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
+import { useForm } from "react-hook-form";
 import { ReceivedCouponType, couponType } from "src/types/couponTypes";
 
 import Grid from "@mui/material/Unstable_Grid2";
@@ -37,6 +36,36 @@ export default function UpdateCouponModal({
   const storesData: ReceivedStoreType[] = data?.data.data;
   const storeList = storesData?.map((store) => {
     return <MenuItem value={store.id}>{store.name_en}</MenuItem>;
+  });
+  const countries: { flag_code: string }[] = [
+    {
+      flag_code: "EG",
+    },
+    {
+      flag_code: "SA",
+    },
+    {
+      flag_code: "QA",
+    },
+    {
+      flag_code: "OM",
+    },
+    {
+      flag_code: "KW",
+    },
+    {
+      flag_code: "AE",
+    },
+    {
+      flag_code: "BH",
+    },
+    {
+      flag_code: "WW",
+    },
+  ];
+
+  const flagList = countries.map((country) => {
+    return <MenuItem value={country.flag_code}>{country.flag_code}</MenuItem>;
   });
   const { register, control, handleSubmit, formState, reset } =
     useForm<couponType>();
@@ -155,6 +184,27 @@ export default function UpdateCouponModal({
                   </Select>
                   <FormHelperText error>
                     {errors.store_id?.message}
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid xs={12}>
+                {" "}
+                <FormControl fullWidth>
+                  <InputLabel id="country-label">country </InputLabel>
+                  <Select
+                    labelId="country-label"
+                    id="country-select"
+                    label="country"
+                    {...register("flag_code", {
+                      required: "country code is required",
+                    })}
+                    defaultValue={coupon.flag_code}
+                    error={!!errors.flag_code}
+                  >
+                    {flagList}
+                  </Select>
+                  <FormHelperText error>
+                    {errors.flag_code?.message}
                   </FormHelperText>
                 </FormControl>
               </Grid>

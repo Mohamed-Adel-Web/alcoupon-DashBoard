@@ -37,6 +37,7 @@ export default function CouponsList() {
     end_date: new Date(),
     store_id: 0,
     store_name_en: "",
+    flag_code: "",
   });
   const { data, isPending } = useGetCoupon();
   const couponData: ReceivedCouponType[] = data?.data.data;
@@ -128,7 +129,14 @@ export default function CouponsList() {
         {couponsTitlesList}
       </Grid>
       {isPending ? (
-        <Box sx={{ display: "flex", justifyContent: "center", height: "80vh",alignItems:"center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            height: "80vh",
+            alignItems: "center",
+          }}
+        >
           <CircularProgress />
         </Box>
       ) : (

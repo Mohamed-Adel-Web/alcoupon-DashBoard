@@ -7,7 +7,7 @@ import { useAuth } from "../context/AuthContext";
 ;
 const theme = createTheme({
   palette: {
-    primary: { main: "#9A328B" },
+    primary: { main: "#F7845D" },
   },
   typography: {
     fontFamily: ["Maven Pro", "sans-serif"].join(),

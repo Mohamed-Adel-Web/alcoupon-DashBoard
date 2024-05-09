@@ -15,6 +15,11 @@ export interface storeType {
   meta_description_ar: string;
   meta_keyword_ar: string;
   meta_keyword_en: string;
+  about_ar: string;
+  about_en: string;
+  title_en: string;
+  title_ar: string;
+  allstore: boolean;
 }
 export interface Meta {
   meta_title_ar: string;
@@ -24,8 +29,6 @@ export interface Meta {
   meta_keyword_ar: string;
   meta_keyword_en: string;
 }
-
-// Modify ReceivedStoreType to include the Meta interface
 export interface ReceivedStoreType
   extends Omit<
     storeType,
@@ -39,6 +42,7 @@ export interface ReceivedStoreType
     | "featured"
     | "status"
     | "category_id"
+    | "allstore"
   > {
   id: number;
   image: string;
@@ -46,6 +50,7 @@ export interface ReceivedStoreType
   featured: string;
   status: string;
   category_id: number[];
+  allstore: string;
 }
 export interface couponStore
   extends Omit<storeType, "image" | "featured" | "status"> {

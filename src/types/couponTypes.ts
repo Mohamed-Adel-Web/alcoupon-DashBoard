@@ -8,6 +8,7 @@ export interface couponType {
   end_date: Date;
   store_id: number;
   store_name_en: string;
+  flag_code: string;
 }
 export interface ReceivedCouponType extends couponType {
   id: number;
