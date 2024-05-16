@@ -31,7 +31,6 @@ const useAddProduct = () => {
         toast.success(`${data.data.message}`);
         queryClient.invalidateQueries({ queryKey: ["AllProducts"] });
       } else {
-        console.log(data);
         toast.error(`${data.data.message}`);
       }
     },

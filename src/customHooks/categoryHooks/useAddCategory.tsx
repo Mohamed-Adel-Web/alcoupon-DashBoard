@@ -10,7 +10,6 @@ const useAddCategory = () => {
   const { token, setToken } = useAuth();
   setToken(Cookies.get("token"));
   const addCategoryRequest = (categoryData: categoryType) => {
-    console.log(token)
 
     return axios.post(categoryUrl, categoryData, {
       headers: {

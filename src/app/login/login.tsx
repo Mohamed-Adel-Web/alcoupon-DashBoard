@@ -6,12 +6,9 @@ import Image from "next/image";
 import { loginData } from "../../types/loginTypes";
 import { Toaster } from "react-hot-toast";
 import logo from "../../../public/images/logo.png";
-import { cookies } from "next/headers";
 
 export default function Login() {
-  function TestClick() {
-    console.log("TestClick");
-  }
+
   const { mutate } = useAdminSignIn();
   const { register, control, handleSubmit, formState } = useForm<loginData>({
     mode: "onTouched",
@@ -84,7 +81,6 @@ export default function Login() {
             type="submit"
             variant="contained"
             disabled={isSubmitting}
-            onClick={TestClick}
           >
             Sign in
           </Button>

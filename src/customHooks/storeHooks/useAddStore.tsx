@@ -31,7 +31,6 @@ const useAddStore = () => {
         toast.success(`${data.data.message}`);
         queryClient.invalidateQueries({ queryKey: ["AllStore"] });
       } else {
-        console.log(data);
         toast.error(`${data.data.message}`);
       }
     },

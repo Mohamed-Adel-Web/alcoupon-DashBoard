@@ -1,4 +1,5 @@
-const baseUrl = `http://192.168.1.19/api/`;
+import { screen } from "@testing-library/react";
+const baseUrl = `https://coupon.kyanlabs.com/api/`;
 const loginRoute = `login`;
 export const loginUrl = baseUrl + loginRoute;
 const createStoreRoute = `stores`;
@@ -9,3 +10,9 @@ const createCouponRoute = `coupons`;
 export const couponUrl = baseUrl + createCouponRoute;
 const createProductRoute = `products`;
 export const productUrl = baseUrl + createProductRoute;
+const createSwiperRoute = `upload-images`;
+export const swiperUrl = baseUrl + createSwiperRoute;
+const getSwiperRoute = `get-images`;
+export const getSwiper = baseUrl + getSwiperRoute;
+const deleteSwiperRoute = `slider-image`;
+export const deleteSwiperUrl = baseUrl + deleteSwiperRoute;

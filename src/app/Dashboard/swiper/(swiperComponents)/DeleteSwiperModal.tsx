@@ -1,5 +1,4 @@
 "use client";
-import { ReceivedStoreType } from "src/types/storeTypes";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -7,39 +6,39 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import useDeleteStore from "src/customHooks/storeHooks/useDeleteStore";
-
-export default function DeleteStoreModal({
-  store,
+import { receivedSwiper } from "src/types/swiperTypes";
+import useDeleteSwiper from "src/customHooks/swiperHooks/useDeleteSwiper";
+export default function DeleteSwiperModal({
+  swiper,
   open,
-  handleDeleteStoreClose,
+  handleDeleteSwiperClose,
 }: {
-  store: ReceivedStoreType | undefined;
+  swiper: receivedSwiper | undefined;
   open: boolean;
-  handleDeleteStoreClose: () => void;
+  handleDeleteSwiperClose: () => void;
 }) {
-  const { mutate, isSuccess } = useDeleteStore(store?.id);
+  const { mutate, isSuccess } = useDeleteSwiper(swiper?.id);
   React.useMemo(() => {
     if (isSuccess) {
-      handleDeleteStoreClose();
+      handleDeleteSwiperClose();
     }
   }, [isSuccess]);
   return (
     <Dialog
       open={open}
-      onClose={handleDeleteStoreClose}
+      onClose={handleDeleteSwiperClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       fullWidth
     >
-      <DialogTitle id="alert-dialog-title">Dele Store</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Dele image</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Are you sure you want to delete this store ?
+          Are you sure you want to delete this image ?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleDeleteStoreClose}>Cancel</Button>
+        <Button onClick={handleDeleteSwiperClose}>Cancel</Button>
         <Button
           onClick={() => {
             mutate();

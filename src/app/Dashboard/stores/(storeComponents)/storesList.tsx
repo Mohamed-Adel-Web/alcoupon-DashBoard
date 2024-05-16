@@ -27,27 +27,7 @@ export default function StoresList({
 }) {
   const { data, isPending } = useGetStore();
   const storesData: ReceivedStoreType[] = data?.data.data;
-  const [store, setStore] = useState<ReceivedStoreType>({
-    id: 0,
-    name_ar: "",
-    name_en: "",
-    image: "/",
-    featured: "featured",
-    status: "active",
-    link_en: "",
-    link_ar: "",
-    description_ar: "",
-    description_en: "",
-    category_id: [0],
-    meta: {
-      meta_title_ar: "",
-      meta_title_en: "",
-      meta_description_en: "",
-      meta_description_ar: "",
-      meta_keyword_ar: "",
-      meta_keyword_en: "",
-    },
-  });
+  const [store, setStore] = useState<ReceivedStoreType | undefined>(undefined);
   const [openUpdateStore, setOpenUpdateStore] = useState<boolean>(false);
   const handleUpdateStoreClose: () => void = () => {
     setOpenUpdateStore(false);

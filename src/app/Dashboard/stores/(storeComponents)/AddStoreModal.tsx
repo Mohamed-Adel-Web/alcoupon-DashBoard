@@ -6,14 +6,14 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import Grid from "@mui/material/Unstable_Grid2";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
 import useAddStore from "src/customHooks/storeHooks/useAddStore";
-import { storeType } from "src/types/storeTypes"; // Ensure this import matches your file structure and export
+import { storeType } from "src/types/storeTypes";
 import {
   FormControlLabel,
   FormHelperText,
@@ -32,6 +32,7 @@ export default function AddStoreModal({
   handleAddStoreClose: () => void;
   categoryData: categoryType[];
 }) {
+  const [ckContent, setCk] = React.useState("");
   const { register, control, handleSubmit, formState, watch, setValue } =
     useForm<storeType>();
   const { errors, isSubmitting } = formState;
@@ -448,7 +449,6 @@ export default function AddStoreModal({
                 />
               </Grid>
 
-          
 
               <Grid xs={6} sx={{ display: "flex", justifyContent: "center" }}>
                 <FormControlLabel

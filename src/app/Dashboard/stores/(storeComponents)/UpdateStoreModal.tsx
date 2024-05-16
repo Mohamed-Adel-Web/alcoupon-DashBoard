@@ -30,7 +30,7 @@ export default function UpdatedStoreModal({
   categoryData,
   handleUpdatedStoreClose,
 }: {
-  store: ReceivedStoreType;
+  store: ReceivedStoreType | undefined;
   open: boolean;
   handleUpdatedStoreClose: () => void;
   categoryData: categoryType[];
@@ -50,7 +50,7 @@ export default function UpdatedStoreModal({
       { shouldValidate: true }
     );
   };
-  const { mutate, isSuccess } = useUpdatedStore(store.id);
+  const { mutate, isSuccess } = useUpdatedStore(store?.id);
   React.useEffect(() => {
     register("image", { required: "Image upload is required" });
   }, [register]);
@@ -302,7 +302,7 @@ export default function UpdatedStoreModal({
                     labelId="category-label"
                     id="category-select"
                     label="Category"
-                    defaultValue={store.category_id[0]}
+                    defaultValue={store?.category_id[0]}
                     {...register("category_id")}
                     error={!!errors.category_id}
                   >
@@ -412,7 +412,7 @@ export default function UpdatedStoreModal({
               <Grid xs={6} sx={{ display: "flex", justifyContent: "center" }}>
                 <FormControlLabel
                   control={
-                    <Switch defaultChecked={store.status === "active"} />
+                    <Switch defaultChecked={store?.status === "active"} />
                   }
                   label="Status"
                   {...register("status")}
@@ -421,7 +421,7 @@ export default function UpdatedStoreModal({
               <Grid xs={6} sx={{ display: "flex", justifyContent: "center" }}>
                 <FormControlLabel
                   control={
-                    <Switch defaultChecked={store.featured === "featured"} />
+                    <Switch defaultChecked={store?.featured === "featured"} />
                   }
                   label="Featured"
                   {...register("featured")}
@@ -430,7 +430,7 @@ export default function UpdatedStoreModal({
               <Grid xs={12} sx={{ display: "flex", justifyContent: "center" }}>
                 <FormControlLabel
                   control={
-                    <Switch defaultChecked={store.allstore === "all-store"} />
+                    <Switch defaultChecked={store?.allstore === "all-store"} />
                   }
                   label="All stores"
                   {...register("allstore")}

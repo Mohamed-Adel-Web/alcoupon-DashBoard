@@ -3,20 +3,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
-import { storeUrl } from "src/app/_service/Service";
 import { useAuth } from "src/app/context/AuthContext";
-interface AxiosError {
-  response?: {
-    data: {
-      message: string;
-    };
-  };
-}
-const useUpdatedStore = (id: number | undefined) => {
+const useUpdateSwiper = (id: number | undefined) => {
   const { token, setToken } = useAuth();
   setToken(Cookies.get("token"));
-  const updateStoreRequest = (storeData: FormData) => {
-    return axios.post(`${storeUrl}/${id}`, storeData, {
+  const updateSwiperRequest = (swiperImage: FormData) => {
+    return axios.post(`${updateSwiperUrl}/${id}`, swiperImage, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -24,22 +16,22 @@ const useUpdatedStore = (id: number | undefined) => {
   };
   const queryClient = useQueryClient();
   const { mutate, data, error, isPending, isSuccess, isError } = useMutation({
-    mutationKey: ["updateStore", id],
-    mutationFn: updateStoreRequest,
+    mutationKey: ["updateSwiper", id],
+    mutationFn: updateSwiperRequest,
     onSuccess: (data) => {
       if (data.data.success) {
         toast.success(`${data.data.message}`);
-        queryClient.invalidateQueries({ queryKey: ["AllStore"] });
+        queryClient.invalidateQueries({ queryKey: ["AllSwiper"] });
       } else {
         toast.error(`${data.data.message}`);
       }
     },
-    onError: (error: AxiosError) => {
-      toast.error(`${error?.response?.data.message}`);
+    onError: (error) => {
+      toast.error(`${error.message}`);
     },
   });
 
   return { mutate, data, error, isPending, isSuccess, isError };
 };
 
-export default useUpdatedStore;
+export default useUpdateSwiper;
