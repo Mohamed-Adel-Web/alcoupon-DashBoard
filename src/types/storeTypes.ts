@@ -17,9 +17,12 @@ export interface storeType {
   meta_keyword_en: string;
   about_ar: string;
   about_en: string;
+  discount_en: string;
+  discount_ar: string;
+  allstore: boolean;
   title_en: string;
   title_ar: string;
-  allstore: boolean;
+
 }
 export interface Meta {
   meta_title_ar: string;

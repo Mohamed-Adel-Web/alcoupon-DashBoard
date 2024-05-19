@@ -7,7 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useForm } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
+import { Editor } from "primereact/editor";
 import Grid from "@mui/material/Unstable_Grid2";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -22,7 +22,57 @@ import {
   MenuItem,
   Select,
   Switch,
+  Typography,
 } from "@mui/material";
+const editorHeader = (
+  <div id="toolbar">
+    <span className="ql-formats">
+      <select className="ql-font">
+        <option></option>
+        <option value="serif"></option>
+        <option value="monospace"></option>
+      </select>
+      <select className="ql-size">
+        <option value="small"></option>
+        <option></option>
+        <option value="large"></option>
+        <option value="huge"></option>
+      </select>
+    </span>
+    <span className="ql-formats">
+      <button className="ql-bold"></button>
+      <button className="ql-italic"></button>
+      <button className="ql-underline"></button>
+      <button className="ql-strike"></button>
+    </span>
+    <span className="ql-formats">
+      <button className="ql-blockquote"></button>
+      <button className="ql-code-block"></button>
+    </span>
+    <span className="ql-formats">
+      <button className="ql-header" value="1"></button>
+      <button className="ql-header" value="2"></button>
+      <button className="ql-list" value="ordered"></button>
+      <button className="ql-list" value="bullet"></button>
+      <button className="ql-indent" value="-1"></button>
+      <button className="ql-indent" value="+1"></button>
+    </span>
+    <span className="ql-formats">
+      <button className="ql-direction" value="rtl"></button>
+      <select className="ql-align"></select>
+      <select className="ql-color"></select>
+      <select className="ql-background"></select>
+    </span>
+    <span className="ql-formats">
+      <button className="ql-link"></button>
+      <button className="ql-image"></button>
+      <button className="ql-video"></button>
+    </span>
+    <span className="ql-formats">
+      <button className="ql-clean"></button>
+    </span>
+  </div>
+);
 import { categoryType } from "src/types/categoryTypes";
 export default function UpdatedStoreModal({
   store,
@@ -35,10 +85,14 @@ export default function UpdatedStoreModal({
   handleUpdatedStoreClose: () => void;
   categoryData: categoryType[];
 }) {
+  const [textEn, setTextEn] = React.useState<string>("");
+  const [textAr, setTextAr] = React.useState<string>("");
+  const [aboutTextEn, setAboutTextEn] = React.useState<string>("");
+  const [aboutTextAr, setAboutTextAr] = React.useState<string>("");
   const categoryList = categoryData?.map((category: categoryType) => {
     return <MenuItem value={category.id}>{category.name_en}</MenuItem>;
   });
-  const { register, control, handleSubmit, formState, watch, setValue, reset } =
+  const { register, handleSubmit, formState, watch, setValue, reset } =
     useForm<storeType>();
 
   const imageSrc = watch("image");
@@ -54,6 +108,22 @@ export default function UpdatedStoreModal({
   React.useEffect(() => {
     register("image", { required: "Image upload is required" });
   }, [register]);
+
+  React.useEffect(() => {
+    register("description_en", {
+      required: "description in English is required",
+    });
+    register("description_ar", {
+      required: "description in Arabic is required",
+    });
+    register("about_en", {
+      required: "description in English is required",
+    });
+    register("about_ar", {
+      required: "description in Arabic is required",
+    });
+  }, [register]);
+
   React.useEffect(() => {
     if (store) {
       reset({
@@ -73,9 +143,13 @@ export default function UpdatedStoreModal({
         meta_keyword_en: store.meta.meta_keyword_en,
         title_en: store.title_en,
         title_ar: store.title_ar,
-        about_ar: store.about_ar,
-        about_en: store.about_en,
+        discount_en: store.discount_en,
+        discount_ar: store.discount_ar,
       });
+      setTextEn(store.description_en);
+      setTextAr(store.description_ar);
+      setAboutTextAr(store.about_ar);
+      setAboutTextEn(store.about_en);
     }
     {
     }
@@ -90,12 +164,16 @@ export default function UpdatedStoreModal({
     if (data.category_id) {
       formData.append("category_id", data.category_id.toString());
     }
+    formData.append("name_ar", data.name_ar);
+    formData.append("name_en", data.name_en);
+    formData.append("image", data.image[0]);
     formData.append("featured", data.featured ? "featured" : "not-featured");
     formData.append("status", data.status ? "active" : "in-active");
     formData.append("link_en", data.link_en);
     formData.append("link_ar", data.link_ar);
     formData.append("description_ar", data.description_ar);
     formData.append("description_en", data.description_en);
+    formData.append("category_id", data.category_id.toString());
     formData.append("meta_title_ar", data.meta_title_ar);
     formData.append("meta_title_en", data.meta_title_en);
     formData.append("meta_description_en", data.meta_description_en);
@@ -104,6 +182,8 @@ export default function UpdatedStoreModal({
     formData.append("meta_keyword_en", data.meta_keyword_en);
     formData.append("title_en", data.title_en);
     formData.append("title_ar", data.title_ar);
+    formData.append("discount_en", data.discount_en);
+    formData.append("discount_ar", data.discount_ar);
     formData.append("about_en", data.about_en);
     formData.append("about_ar", data.about_ar);
     formData.append("allstore", data.allstore ? "all-store" : "not-all-store");
@@ -190,6 +270,46 @@ export default function UpdatedStoreModal({
               <Grid md={6} xs={12}>
                 <TextField
                   fullWidth
+                  id="Store discount in English"
+                  label="Store discount in English"
+                  type="text"
+                  variant="outlined"
+                  {...register("discount_en", {
+                    required: "Store discount is required",
+                    minLength: {
+                      value: 3,
+                      message: "minimum length is 3 character",
+                    },
+                    maxLength: {
+                      value: 140,
+                      message: "maximum length is 140 character",
+                    },
+                  })}
+                  error={!!errors.discount_en}
+                  helperText={errors.discount_en?.message}
+                />
+              </Grid>
+              <Grid md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  id="Store discount in Arabic"
+                  label="Store discount in Arabic"
+                  type="text"
+                  variant="outlined"
+                  {...register("discount_ar", {
+                    required: "Store name is required",
+                    minLength: {
+                      value: 3,
+                      message: "minimum length is 3 character",
+                    },
+                  })}
+                  error={!!errors.discount_ar}
+                  helperText={errors.discount_ar?.message}
+                />
+              </Grid>
+              <Grid md={6} xs={12}>
+                <TextField
+                  fullWidth
                   id="store-link-en"
                   label="Store Link in english"
                   type="text"
@@ -217,72 +337,74 @@ export default function UpdatedStoreModal({
               </Grid>
 
               <Grid md={6} xs={12}>
-                <TextField
-                  multiline
-                  fullWidth
-                  id="store-description-en"
-                  label="Store Description in English"
-                  type="text"
-                  variant="outlined"
-                  {...register("description_en", {
-                    required: "Store description is required",
-                  })}
-                  error={!!errors.description_en}
-                  helperText={errors.description_en?.message}
-                />
+                <div className="card">
+                  <Editor
+                    value={textEn}
+                    headerTemplate={editorHeader}
+                    placeholder="store description in english"
+                    onTextChange={(e) => {
+                      setTextEn(e.htmlValue || "");
+                      setValue("description_en", e.htmlValue || "");
+                    }}
+                    style={{ height: "320px" }}
+                  />
+                  <FormHelperText error={!!errors.description_en}>
+                    {errors.description_en?.message}
+                  </FormHelperText>
+                </div>
+              </Grid>
+
+              <Grid md={6} xs={12}>
+                <div className="card">
+                  <Editor
+                    value={textAr}
+                    placeholder="store description in arabic"
+                    headerTemplate={editorHeader}
+                    onTextChange={(e) => {
+                      setTextAr(e.htmlValue || "");
+                      setValue("description_ar", e.htmlValue || "");
+                    }}
+                    style={{ height: "320px" }}
+                  />
+                  <FormHelperText error={!!errors.description_ar}>
+                    {errors.description_ar?.message}
+                  </FormHelperText>
+                </div>
               </Grid>
               <Grid md={6} xs={12}>
-                <TextField
-                  multiline
-                  fullWidth
-                  id="store-description-ar"
-                  label="Store Description in Arabic"
-                  type="text"
-                  variant="outlined"
-                  {...register("description_ar", {
-                    required: "Store description is required",
-                  })}
-                  error={!!errors.description_ar}
-                  helperText={errors.description_ar?.message}
-                />
+                <div className="card">
+                  <Editor
+                    value={aboutTextEn}
+                    headerTemplate={editorHeader}
+                    placeholder="store about in english"
+                    onTextChange={(e) => {
+                      setAboutTextEn(e.htmlValue || "");
+                      setValue("about_en", e.htmlValue || "");
+                    }}
+                    style={{ height: "320px" }}
+                  />
+                  <FormHelperText error={!!errors.about_en}>
+                    {errors.about_en?.message}
+                  </FormHelperText>
+                </div>
               </Grid>
+
               <Grid md={6} xs={12}>
-                <TextField
-                  multiline
-                  fullWidth
-                  id="Store About in English"
-                  label="Store About in English"
-                  type="text"
-                  variant="outlined"
-                  {...register("about_en", {
-                    required: "Store about is required",
-                    minLength: {
-                      value: 20,
-                      message: "minimum length is 20 character",
-                    },
-                  })}
-                  error={!!errors.about_en}
-                  helperText={errors.about_en?.message}
-                />
-              </Grid>
-              <Grid md={6} xs={12}>
-                <TextField
-                  multiline
-                  fullWidth
-                  id="Store About in Arabic"
-                  label="Store About in Arabic"
-                  type="text"
-                  variant="outlined"
-                  {...register("about_ar", {
-                    required: "Store about is required",
-                    minLength: {
-                      value: 20,
-                      message: "minimum length is 20 character",
-                    },
-                  })}
-                  error={!!errors.about_ar}
-                  helperText={errors.about_ar?.message}
-                />
+                <div className="card">
+                  <Editor
+                    value={aboutTextAr}
+                    placeholder="store about in arabic"
+                    headerTemplate={editorHeader}
+                    onTextChange={(e) => {
+                      setAboutTextAr(e.htmlValue || "");
+                      setValue("about_ar", e.htmlValue || "");
+                    }}
+                    style={{ height: "320px" }}
+                  />
+                  <FormHelperText error={!!errors.about_ar}>
+                    {errors.about_ar?.message}
+                  </FormHelperText>
+                </div>
               </Grid>
               <Grid md={6} xs={12}>
                 <FilePond
@@ -313,6 +435,9 @@ export default function UpdatedStoreModal({
                   </FormHelperText>
                 </FormControl>
               </Grid>
+              <Grid xs={12} sx={{ textAlign: "center" }}>
+                <Typography variant="h3">SEO DATA</Typography>
+              </Grid>
               <Grid md={6} xs={12}>
                 <TextField
                   multiline
@@ -321,9 +446,7 @@ export default function UpdatedStoreModal({
                   label="Meta Title in Arabic"
                   type="text"
                   variant="outlined"
-                  {...register("meta_title_ar", {
-                    required: "Meta title is required",
-                  })}
+                  {...register("meta_title_ar")}
                   error={!!errors.meta_title_ar}
                   helperText={errors.meta_title_ar?.message}
                 />
@@ -337,9 +460,7 @@ export default function UpdatedStoreModal({
                   label="Meta Title in English"
                   type="text"
                   variant="outlined"
-                  {...register("meta_title_en", {
-                    required: "Meta title is required",
-                  })}
+                  {...register("meta_title_en")}
                   error={!!errors.meta_title_en}
                   helperText={errors.meta_title_en?.message}
                 />
@@ -353,9 +474,7 @@ export default function UpdatedStoreModal({
                   label="Meta Description in Arabic"
                   type="text"
                   variant="outlined"
-                  {...register("meta_description_ar", {
-                    required: "Meta description is required",
-                  })}
+                  {...register("meta_description_ar")}
                   error={!!errors.meta_description_ar}
                   helperText={errors.meta_description_ar?.message}
                 />
@@ -369,9 +488,7 @@ export default function UpdatedStoreModal({
                   label="Meta Description in English"
                   type="text"
                   variant="outlined"
-                  {...register("meta_description_en", {
-                    required: "Meta description is required",
-                  })}
+                  {...register("meta_description_en")}
                   error={!!errors.meta_description_en}
                   helperText={errors.meta_description_en?.message}
                 />
@@ -385,9 +502,7 @@ export default function UpdatedStoreModal({
                   label="Meta Keywords in Arabic"
                   type="text"
                   variant="outlined"
-                  {...register("meta_keyword_ar", {
-                    required: "Meta keywords are required",
-                  })}
+                  {...register("meta_keyword_ar")}
                   error={!!errors.meta_keyword_ar}
                   helperText={errors.meta_keyword_ar?.message}
                 />
@@ -401,9 +516,7 @@ export default function UpdatedStoreModal({
                   label="Meta Keywords in English"
                   type="text"
                   variant="outlined"
-                  {...register("meta_keyword_en", {
-                    required: "Meta keywords are required",
-                  })}
+                  {...register("meta_keyword_en")}
                   error={!!errors.meta_keyword_en}
                   helperText={errors.meta_keyword_en?.message}
                 />

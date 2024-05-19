@@ -1,4 +1,3 @@
-import { screen } from "@testing-library/react";
 const baseUrl = `https://coupon.kyanlabs.com/api/`;
 const loginRoute = `login`;
 export const loginUrl = baseUrl + loginRoute;

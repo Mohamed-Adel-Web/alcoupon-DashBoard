@@ -42,3 +42,9 @@
   src: url("/Fonts/static/MavenPro-Black.ttf");
   font-weight: 900;
 }
+.ql-tooltip.ql-editing[data-mode="link"] {
+  left: 0px !important;
+}
+.ql-tooltip.ql-editing[data-mode="video"] {
+  left: 0px !important;
+}

@@ -6,7 +6,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import {  useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Grid from "@mui/material/Unstable_Grid2";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -14,15 +14,67 @@ import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
 import useAddStore from "src/customHooks/storeHooks/useAddStore";
 import { storeType } from "src/types/storeTypes";
+import { Editor } from "primereact/editor";
 import {
   FormControlLabel,
   FormHelperText,
   MenuItem,
   Select,
   Switch,
+  Typography,
 } from "@mui/material";
 import { categoryType } from "src/types/categoryTypes";
+import { DevTool } from "@hookform/devtools";
 
+const editorHeader = (
+  <div id="toolbar">
+    <span className="ql-formats">
+      <select className="ql-font">
+        <option></option>
+        <option value="serif"></option>
+        <option value="monospace"></option>
+      </select>
+      <select className="ql-size">
+        <option value="small"></option>
+        <option></option>
+        <option value="large"></option>
+        <option value="huge"></option>
+      </select>
+    </span>
+    <span className="ql-formats">
+      <button className="ql-bold"></button>
+      <button className="ql-italic"></button>
+      <button className="ql-underline"></button>
+      <button className="ql-strike"></button>
+    </span>
+    <span className="ql-formats">
+      <button className="ql-blockquote"></button>
+      <button className="ql-code-block"></button>
+    </span>
+    <span className="ql-formats">
+      <button className="ql-header" value="1"></button>
+      <button className="ql-header" value="2"></button>
+      <button className="ql-list" value="ordered"></button>
+      <button className="ql-list" value="bullet"></button>
+      <button className="ql-indent" value="-1"></button>
+      <button className="ql-indent" value="+1"></button>
+    </span>
+    <span className="ql-formats">
+      <button className="ql-direction" value="rtl"></button>
+      <select className="ql-align"></select>
+      <select className="ql-color"></select>
+      <select className="ql-background"></select>
+    </span>
+    <span className="ql-formats">
+      <button className="ql-link"></button>
+      <button className="ql-image"></button>
+      <button className="ql-video"></button>
+    </span>
+    <span className="ql-formats">
+      <button className="ql-clean"></button>
+    </span>
+  </div>
+);
 export default function AddStoreModal({
   open,
   handleAddStoreClose,
@@ -32,7 +84,10 @@ export default function AddStoreModal({
   handleAddStoreClose: () => void;
   categoryData: categoryType[];
 }) {
-  const [ckContent, setCk] = React.useState("");
+  const [textEn, setTextEn] = React.useState<string>("");
+  const [textAr, setTextAr] = React.useState<string>("");
+  const [aboutTextEn, setAboutTextEn] = React.useState<string>("");
+  const [aboutTextAr, setAboutTextAr] = React.useState<string>("");
   const { register, control, handleSubmit, formState, watch, setValue } =
     useForm<storeType>();
   const { errors, isSubmitting } = formState;
@@ -56,8 +111,23 @@ export default function AddStoreModal({
       handleAddStoreClose();
     }
   }, [isSuccess]);
+  React.useEffect(() => {
+    register("description_en", {
+      required: "description in English is required",
+    });
+    register("description_ar", {
+      required: "description in Arabic is required",
+    });
+    register("about_en", {
+      required: "description in English is required",
+    });
+    register("about_ar", {
+      required: "description in Arabic is required",
+    });
+  }, [register]);
 
   const onSubmit = (data: storeType) => {
+    console.log(data);
     const formData = new FormData();
     formData.append("name_ar", data.name_ar);
     formData.append("name_en", data.name_en);
@@ -77,9 +147,12 @@ export default function AddStoreModal({
     formData.append("meta_keyword_en", data.meta_keyword_en);
     formData.append("title_en", data.title_en);
     formData.append("title_ar", data.title_ar);
+    formData.append("discount_en", data.title_en);
+    formData.append("discount_ar", data.title_ar);
     formData.append("about_en", data.about_en);
     formData.append("about_ar", data.about_ar);
     formData.append("allstore", data.allstore ? "all-store" : "not-all-store");
+
     mutate(formData);
   };
 
@@ -170,7 +243,46 @@ export default function AddStoreModal({
                   helperText={errors.title_ar?.message}
                 />
               </Grid>
-
+              <Grid md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  id="Store discount in English"
+                  label="Store discount in English"
+                  type="text"
+                  variant="outlined"
+                  {...register("discount_en", {
+                    required: "Store discount is required",
+                    minLength: {
+                      value: 3,
+                      message: "minimum length is 3 character",
+                    },
+                    maxLength: {
+                      value: 140,
+                      message: "maximum length is 140 character",
+                    },
+                  })}
+                  error={!!errors.discount_en}
+                  helperText={errors.discount_en?.message}
+                />
+              </Grid>
+              <Grid md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  id="Store discount in Arabic"
+                  label="Store discount in Arabic"
+                  type="text"
+                  variant="outlined"
+                  {...register("discount_ar", {
+                    required: "Store name is required",
+                    minLength: {
+                      value: 3,
+                      message: "minimum length is 3 character",
+                    },
+                  })}
+                  error={!!errors.discount_ar}
+                  helperText={errors.discount_ar?.message}
+                />
+              </Grid>
               <Grid md={6} xs={12}>
                 <TextField
                   fullWidth
@@ -209,82 +321,73 @@ export default function AddStoreModal({
                   helperText={errors.link_ar?.message}
                 />
               </Grid>
-
               <Grid md={6} xs={12}>
-                <TextField
-                  multiline
-                  fullWidth
-                  id="store-description-en"
-                  label="Store Description in English"
-                  type="text"
-                  variant="outlined"
-                  {...register("description_en", {
-                    required: "Store description is required",
-                    minLength: {
-                      value: 20,
-                      message: "minimum length is 20 character",
-                    },
-                  })}
-                  error={!!errors.description_en}
-                  helperText={errors.description_en?.message}
-                />
+                <div className="card">
+                  <Editor
+                    value={textEn}
+                    headerTemplate={editorHeader}
+                    placeholder="store description in english"
+                    onTextChange={(e) => {
+                      setTextEn(e.htmlValue || "");
+                      setValue("description_en", e.htmlValue || "");
+                    }}
+                    style={{ height: "320px" }}
+                  />
+                  <FormHelperText error={!!errors.description_en}>
+                    {errors.description_en?.message}
+                  </FormHelperText>
+                </div>
               </Grid>
               <Grid md={6} xs={12}>
-                <TextField
-                  multiline
-                  fullWidth
-                  id="store-description-ar"
-                  label="Store Description in Arabic"
-                  type="text"
-                  variant="outlined"
-                  {...register("description_ar", {
-                    required: "Store description is required",
-                    minLength: {
-                      value: 20,
-                      message: "minimum length is 20 character",
-                    },
-                  })}
-                  error={!!errors.description_ar}
-                  helperText={errors.description_ar?.message}
-                />
+                <div className="card">
+                  <Editor
+                    value={textAr}
+                    placeholder="store description in arabic"
+                    headerTemplate={editorHeader}
+                    onTextChange={(e) => {
+                      setTextAr(e.htmlValue || "");
+                      setValue("description_ar", e.htmlValue || "");
+                    }}
+                    style={{ height: "320px" }}
+                  />
+                  <FormHelperText error={!!errors.description_ar}>
+                    {errors.description_ar?.message}
+                  </FormHelperText>
+                </div>
               </Grid>
               <Grid md={6} xs={12}>
-                <TextField
-                  multiline
-                  fullWidth
-                  id="Store About in English"
-                  label="Store About in English"
-                  type="text"
-                  variant="outlined"
-                  {...register("about_en", {
-                    required: "Store about is required",
-                    minLength: {
-                      value: 20,
-                      message: "minimum length is 20 character",
-                    },
-                  })}
-                  error={!!errors.about_en}
-                  helperText={errors.about_en?.message}
-                />
+                <div className="card">
+                  <Editor
+                    value={aboutTextEn}
+                    headerTemplate={editorHeader}
+                    placeholder="store about in english"
+                    onTextChange={(e) => {
+                      setAboutTextEn(e.htmlValue || "");
+                      setValue("about_en", e.htmlValue || "");
+                    }}
+                    style={{ height: "320px" }}
+                  />
+                  <FormHelperText error={!!errors.about_en}>
+                    {errors.about_en?.message}
+                  </FormHelperText>
+                </div>
               </Grid>
               <Grid md={6} xs={12}>
-                <TextField
-                  multiline
-                  fullWidth
-                  id="Store About in Arabic"
-                  label="Store About in Arabic"
-                  type="text"
-                  variant="outlined"
-                  {...register("about_ar", {
-                    required: "Store about is required",
-                    minLength: {
-                      value: 20,
-                      message: "minimum length is 20 character",
-                    },
-                  })}
-                  error={!!errors.about_ar}
-                  helperText={errors.about_ar?.message}
-                />
+                <div className="card">
+                  <Editor
+                    value={aboutTextAr}
+                    placeholder="store about in arabic"
+                    headerTemplate={editorHeader}
+                    onTextChange={(e) => {
+                      setAboutTextAr(e.htmlValue || "");
+                      setValue("about_ar", e.htmlValue || "");
+                    }}
+                    style={{ height: "320px" }}
+                  />
+                  <FormHelperText error={!!errors.about_ar}>
+                    {errors.about_ar?.message}
+                  </FormHelperText>
+                </div>
               </Grid>
               <Grid md={6} xs={12}>
                 <FilePond
@@ -317,7 +420,9 @@ export default function AddStoreModal({
                   </FormHelperText>
                 </FormControl>
               </Grid>
-
+              <Grid xs={12} sx={{ textAlign: "center" }}>
+                <Typography variant="h3">SEO DATA</Typography>
+              </Grid>
               <Grid md={6} xs={12}>
                 <TextField
                   multiline
@@ -326,17 +431,7 @@ export default function AddStoreModal({
                   label="SEO Title in English"
                   type="text"
                   variant="outlined"
-                  {...register("meta_title_en", {
-                    required: "SEO title is required",
-                    minLength: {
-                      value: 3,
-                      message: "minimum length is 3 character",
-                    },
-                    maxLength: {
-                      value: 63,
-                      message: "maximum length is 63 character",
-                    },
-                  })}
+                  {...register("meta_title_en")}
                   error={!!errors.meta_title_en}
                   helperText={errors.meta_title_en?.message}
                 />
@@ -349,17 +444,7 @@ export default function AddStoreModal({
                   label="SEO Title in Arabic"
                   type="text"
                   variant="outlined"
-                  {...register("meta_title_ar", {
-                    required: "SEO title is required",
-                    minLength: {
-                      value: 3,
-                      message: "minimum length is 3 character",
-                    },
-                    maxLength: {
-                      value: 63,
-                      message: "maximum length is 63 character",
-                    },
-                  })}
+                  {...register("meta_title_ar")}
                   error={!!errors.meta_title_ar}
                   helperText={errors.meta_title_ar?.message}
                 />
@@ -372,17 +457,7 @@ export default function AddStoreModal({
                   label="Meta Description in English"
                   type="text"
                   variant="outlined"
-                  {...register("meta_description_en", {
-                    required: "Meta description is required",
-                    minLength: {
-                      value: 20,
-                      message: "minimum length is 20 character",
-                    },
-                    maxLength: {
-                      value: 156,
-                      message: "maximum length is 156 character",
-                    },
-                  })}
+                  {...register("meta_description_en")}
                   error={!!errors.meta_description_en}
                   helperText={errors.meta_description_en?.message}
                 />
@@ -395,17 +470,7 @@ export default function AddStoreModal({
                   label="Meta Description in Arabic"
                   type="text"
                   variant="outlined"
-                  {...register("meta_description_ar", {
-                    required: "Meta description is required",
-                    minLength: {
-                      value: 20,
-                      message: "minimum length is 20 character",
-                    },
-                    maxLength: {
-                      value: 156,
-                      message: "maximum length is 156 character",
-                    },
-                  })}
+                  {...register("meta_description_ar")}
                   error={!!errors.meta_description_ar}
                   helperText={errors.meta_description_ar?.message}
                 />
@@ -418,13 +483,7 @@ export default function AddStoreModal({
                   label="Meta Keywords in English"
                   type="text"
                   variant="outlined"
-                  {...register("meta_keyword_en", {
-                    required: "Meta keywords are required",
-                    minLength: {
-                      value: 3,
-                      message: "minimum length is 3 character",
-                    },
-                  })}
+                  {...register("meta_keyword_en")}
                   error={!!errors.meta_keyword_en}
                   helperText={errors.meta_keyword_en?.message}
                 />
@@ -437,34 +496,27 @@ export default function AddStoreModal({
                   label="Meta Keywords in Arabic"
                   type="text"
                   variant="outlined"
-                  {...register("meta_keyword_ar", {
-                    required: "Meta keywords are required",
-                    minLength: {
-                      value: 3,
-                      message: "minimum length is 3 character",
-                    },
-                  })}
+                  {...register("meta_keyword_ar")}
                   error={!!errors.meta_keyword_ar}
                   helperText={errors.meta_keyword_ar?.message}
                 />
               </Grid>
 
-
-              <Grid xs={6} sx={{ display: "flex", justifyContent: "center" }}>
+              <Grid xs={4} sx={{ display: "flex", justifyContent: "center" }}>
                 <FormControlLabel
                   control={<Switch defaultChecked />}
                   label="Status"
                   {...register("status")}
                 />
               </Grid>
-              <Grid xs={6} sx={{ display: "flex", justifyContent: "center" }}>
+              <Grid xs={4} sx={{ display: "flex", justifyContent: "center" }}>
                 <FormControlLabel
                   control={<Switch defaultChecked />}
                   label="Featured"
                   {...register("featured")}
                 />
               </Grid>
-              <Grid xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+              <Grid xs={4} sx={{ display: "flex", justifyContent: "center" }}>
                 <FormControlLabel
                   control={<Switch defaultChecked />}
                   label="All stores"

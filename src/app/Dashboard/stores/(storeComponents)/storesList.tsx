@@ -81,6 +81,7 @@ export default function StoresList({
             <IconButton
               onClick={() => {
                 setStore(store);
+                console.log(store);
                 handleUpdateStoreOpen();
               }}
             >
