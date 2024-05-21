@@ -3,7 +3,7 @@ import Stack from "@mui/material/Stack";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { Toaster } from "react-hot-toast";
-import logo from "../../../public/images/logo.png";
+
 import { loginData } from "../types/loginTypes";
 import useAdminSignIn from "../customHooks/useAdminSignIn";
 
@@ -26,11 +26,11 @@ export default function Login() {
         alignItems: "center",
         height: "100vh",
         background:
-          " linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(157,113,50,0.5158438375350141) 72%)",
+          " black",
         flexDirection: "column",
       }}
     >
-      <Image src={logo} width={300} height={100} alt="alcoupon image" />
+      <Image src={"/images/Logo_En.svg"} width={300} height={100} alt="alcoupon image" />
 
       <form noValidate onSubmit={handleSubmit(onSubmit)}>
         <Stack

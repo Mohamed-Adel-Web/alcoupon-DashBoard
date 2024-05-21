@@ -11,9 +11,9 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import StoreIcon from "@mui/icons-material/Store";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import InventoryIcon from "@mui/icons-material/Inventory";
-import logo from "../../../public/images/logo.png";
 import ImageIcon from "@mui/icons-material/Image";
 import Link from "next/link";
+
 export const DashboardMenuData: { title: string; icon: React.ReactElement }[] =
   [
     { title: "stores", icon: <StoreIcon /> },
@@ -22,21 +22,35 @@ export const DashboardMenuData: { title: string; icon: React.ReactElement }[] =
     { title: "products", icon: <InventoryIcon /> },
     { title: "swiper", icon: <ImageIcon /> },
   ];
-const DashboardMenuList = DashboardMenuData.map((data, index) => {
+
+const DashboardMenuList = DashboardMenuData.map((data) => {
   return (
     <Link
       href={`/Dashboard/${data.title}`}
-      style={{ textDecoration: "none", color: "black" }}
+      style={{ textDecoration: "none", color: "white" }}
+      key={data.title}
     >
-      <ListItem disablePadding key={data.title}>
-        <ListItemButton>
-          <ListItemIcon>{data.icon}</ListItemIcon>
+      <ListItem disablePadding>
+        <ListItemButton
+          sx={{
+            "&:hover": {
+              backgroundColor: "white",
+              color: "black",
+              "& .MuiListItemIcon-root": {
+                color: "black",
+              },
+            },
+            transitionDuration: "0.5s",
+          }}
+        >
+          <ListItemIcon sx={{ color: "white" }}>{data.icon}</ListItemIcon>
           <ListItemText primary={data.title} />
         </ListItemButton>
       </ListItem>
     </Link>
   );
 });
+
 export default function DashboardMenu({
   open,
   handleDrawerClose,
@@ -48,17 +62,17 @@ export default function DashboardMenu({
     <>
       <Box
         sx={{
-          background: "#FFFFFF",
+          background: "#212121",
           height: "100%",
           minHeight: "100vh",
           padding: "1.2rem",
           overflow: "auto",
+          color: "white",
           transform: {
             xs: open ? "translateX(0)" : "translateX(-100%)",
             md: "translateX(0)",
           },
           boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-          border: "1px solid #9A328B",
           zIndex: "999",
           position: { xs: "fixed", md: "relative" },
           transition: "0.3s",
@@ -71,13 +85,13 @@ export default function DashboardMenu({
             display: { xs: "flex", md: "none" },
           }}
         >
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose} sx={{ color: "white" }}>
             <CloseIcon />
           </IconButton>
         </Box>
         <Box className="menuHeader">
           <Image
-            src={logo}
+            src={"/images/Logo_En.svg"}
             width={200}
             style={{ width: "100%" }}
             height={80}
@@ -88,11 +102,23 @@ export default function DashboardMenu({
           <List>
             <Link
               href={`/Dashboard`}
-              style={{ textDecoration: "none", color: "black" }}
+              style={{ textDecoration: "none", color: "white" }}
+              key={"Dashboard"}
             >
-              <ListItem disablePadding key={"Dashboard"}>
-                <ListItemButton>
-                  <ListItemIcon>
+              <ListItem disablePadding>
+                <ListItemButton
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "white",
+                      color: "black",
+                      "& .MuiListItemIcon-root": {
+                        color: "black",
+                      },
+                    },
+                    transitionDuration: "0.5s",
+                  }}
+                >
+                  <ListItemIcon sx={{ color: "white" }}>
                     <DashboardIcon />
                   </ListItemIcon>
                   <ListItemText primary={"Dashboard"} />

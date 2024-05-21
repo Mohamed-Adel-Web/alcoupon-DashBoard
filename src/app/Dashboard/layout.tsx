@@ -13,7 +13,7 @@ import Container from "@mui/material/Container";
 
 const theme = createTheme({
   palette: {
-    primary: { main: "#F7845D" },
+    primary: { main: "#212121" },
   },
   typography: {
     fontFamily: ["Maven Pro", "sans-serif"].join(),
