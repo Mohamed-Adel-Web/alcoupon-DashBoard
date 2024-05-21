@@ -7,9 +7,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useForm } from "react-hook-form";
-import { categoryType } from "src/types/categoryTypes";
 import Grid from "@mui/material/Unstable_Grid2";
-import useUpdateCategory from "src/customHooks/categoryHooks/useUpdateCategory";
+import { categoryType } from "@/app/types/categoryTypes";
+import useUpdatedCategory from "@/app/customHooks/categoryHooks/useUpdateCategory";
 export default function UpdateCategoryModal({
   category,
   open,
@@ -22,7 +22,7 @@ export default function UpdateCategoryModal({
   const { register, control, handleSubmit, formState, reset } =
     useForm<categoryType>();
   const { errors, isSubmitting } = formState;
-  const { mutate, isSuccess } = useUpdateCategory(category?.id);
+  const { mutate, isSuccess } = useUpdatedCategory(category?.id);
   const onSubmit = (data: categoryType) => {
     mutate(data);
   };

@@ -7,10 +7,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useForm } from "react-hook-form";
-import { productType } from "src/types/productTypes";
 import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
-import useAddProduct from "src/customHooks/productHooks/useAddProduct";
 import Grid from "@mui/material/Unstable_Grid2";
 import {
   FormControl,
@@ -19,8 +17,11 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { ReceivedStoreType } from "src/types/storeTypes";
-import useGetStore from "src/customHooks/storeHooks/useGetStore";
+import useGetStore from "@/app/customHooks/storeHooks/useGetStore";
+import { ReceivedStoreType } from "@/app/types/storeTypes";
+import { productType } from "@/app/types/productTypes";
+import useAddProduct from "@/app/customHooks/productHooks/useAddProduct";
+
 export default function AddProductModal({
   open,
   handleAddProductClose,

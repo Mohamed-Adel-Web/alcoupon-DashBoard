@@ -6,8 +6,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { ReceivedProductType } from "src/types/productTypes";
-import useDeleteProduct from "src/customHooks/productHooks/useDeleteProduct";
+import { ReceivedProductType } from "@/app/types/productTypes";
+import useDeleteProduct from "@/app/customHooks/productHooks/useDeleteProduct";
+
 export default function DeleteProductModal({
   product,
   open,

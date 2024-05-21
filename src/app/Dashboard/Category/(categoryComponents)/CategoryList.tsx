@@ -2,13 +2,13 @@
 import { Box, CircularProgress, IconButton } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import Tooltip from "@mui/material/Tooltip";
-import { categoryType } from "src/types/categoryTypes";
 import UpdateCategoryModal from "./UpdateCategoryModal";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
-import useGetCategory from "src/customHooks/categoryHooks/useGetCategory";
 import DeleteCategoryModal from "./DeleteCategoryModal";
+import useGetCategory from "@/app/customHooks/categoryHooks/useGetCategory";
+import { categoryType } from "@/app/types/categoryTypes";
 
 const categoryTitles: string[] = [
   "category name en",
@@ -25,7 +25,7 @@ const categoryTitlesList = categoryTitles.map((title) => {
 
 export default function CategoryList() {
   const { data, isPending } = useGetCategory();
-  const categoryData: categoryType[] = data?.data.data;
+  const categoryData: categoryType [] = data?.data.data;
   const [category, setCategory] = useState<categoryType | undefined>();
 
   const [openUpdateCategory, setOpenUpdateCategory] = useState<boolean>(false);

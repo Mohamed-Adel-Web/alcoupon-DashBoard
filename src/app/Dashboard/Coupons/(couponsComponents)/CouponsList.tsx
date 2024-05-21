@@ -7,9 +7,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
 import DeleteCouponModal from "./DeleteCouponModal";
-import { ReceivedCouponType } from "src/types/couponTypes";
 import UpdateCouponModal from "./UpdateCouponModal";
-import useGetCoupon from "src/customHooks/couponHooks/useGetCoupon";
+import { ReceivedCouponType } from "@/app/types/couponTypes";
+import useGetCoupon from "@/app/customHooks/couponHooks/useGetCoupon";
 const couponsTitles: string[] = [
   "store name",
   "couponTitle",
@@ -56,7 +56,7 @@ export default function CouponsList() {
           color: "primary.main",
           margin: "1rem 0",
         }}
-        key={coupon.id}
+        key={coupon.title_en}
       >
         <Grid xs={2} sx={{ display: "flex", justifyContent: "center" }}>
           {coupon.store_name_en}

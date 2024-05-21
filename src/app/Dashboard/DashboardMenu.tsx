@@ -12,7 +12,7 @@ import StoreIcon from "@mui/icons-material/Store";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import logo from "../../../public/images/logo.png";
-import ImageIcon from '@mui/icons-material/Image';
+import ImageIcon from "@mui/icons-material/Image";
 import Link from "next/link";
 export const DashboardMenuData: { title: string; icon: React.ReactElement }[] =
   [

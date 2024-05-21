@@ -6,8 +6,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { ReceivedCouponType } from "src/types/couponTypes";
-import useDeleteCoupon from "src/customHooks/couponHooks/useDeleteCoupon";
+import { ReceivedCouponType } from "@/app/types/couponTypes";
+import useDeleteCoupon from "@/app/customHooks/couponHooks/useDeleteCoupon";
 export default function DeleteCouponModal({
   coupon,
   open,

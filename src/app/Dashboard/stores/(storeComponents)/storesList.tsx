@@ -6,11 +6,12 @@ import Tooltip from "@mui/material/Tooltip";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
-import { ReceivedStoreType } from "src/types/storeTypes";
+import { categoryType } from "@/app/types/categoryTypes";
+import useGetStore from "@/app/customHooks/storeHooks/useGetStore";
+import { ReceivedStoreType } from "@/app/types/storeTypes";
 import UpdatedStoreModal from "./UpdateStoreModal";
-import { categoryType } from "src/types/categoryTypes";
 import DeleteStoreModal from "./DeleteStoreModal";
-import useGetStore from "src/customHooks/storeHooks/useGetStore";
+
 const storesTitles: string[] = ["name", "image", "Feature", "status", "Action"];
 const storesTitlesList = storesTitles.map((title) => {
   return (
@@ -45,7 +46,7 @@ export default function StoresList({
   const storesList = storesData?.map((store) => {
     return (
       <Grid
-        key={store.id}
+        key={store.name_en}
         spacing={2}
         container
         sx={{
@@ -63,7 +64,7 @@ export default function StoresList({
           {store.name_en}
         </Grid>
         <Grid xs={2} sx={{ display: "flex", justifyContent: "center" }}>
-          <img
+          <Image
             src={`${store.image}`}
             width={100}
             height={50}

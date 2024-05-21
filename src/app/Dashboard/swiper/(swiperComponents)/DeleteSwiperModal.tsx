@@ -6,8 +6,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { receivedSwiper } from "src/types/swiperTypes";
-import useDeleteSwiper from "src/customHooks/swiperHooks/useDeleteSwiper";
+import { receivedSwiper } from "@/app/types/swiperTypes";
+import useDeleteSwiper from "@/app/customHooks/swiperHooks/useDeleteSwiper";
 export default function DeleteSwiperModal({
   swiper,
   open,

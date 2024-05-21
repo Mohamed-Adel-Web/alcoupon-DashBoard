@@ -2,17 +2,16 @@
 import { Box, CircularProgress, IconButton } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import Tooltip from "@mui/material/Tooltip";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
-import useGetSwiper from "src/customHooks/swiperHooks/useGetSwiper";
-import {  receivedSwiper } from "src/types/swiperTypes";
-import UpdateSwiperModal from "./UpdateSwiperModal";
 import DeleteSwiperModal from "./DeleteSwiperModal";
-const swiperTitles: string[] = ["image", "Action"];
+import useGetSwiper from "@/app/customHooks/swiperHooks/useGetSwiper";
+import { receivedSwiper } from "@/app/types/swiperTypes";
+import Image from "next/image";
+const swiperTitles: string[] = ["image_en","image_ar", "Action"];
 const swiperTitlesList = swiperTitles.map((title) => {
   return (
-    <Grid xs={6} sx={{ display: "flex", justifyContent: "center" }}>
+    <Grid xs={4} sx={{ display: "flex", justifyContent: "center" }}>
       {title}
     </Grid>
   );
@@ -23,14 +22,8 @@ export default function CategoryList() {
   const swiperData: receivedSwiper[] = data?.data.data;
 
   const [swiper, setSwiper] = useState<receivedSwiper | undefined>();
-  const [openUpdateSwiper, setOpenUpdateSwiper] = useState<boolean>(false);
 
-  const handleUpdateSwiperClose: () => void = () => {
-    setOpenUpdateSwiper(false);
-  };
-  const handleUpdateSwiperOpen: () => void = () => {
-    setOpenUpdateSwiper(true);
-  };
+
   const [openDeleteSwiper, setOpenDeleteSwiper] = useState<boolean>(false);
   const handleDeleteSwiperClose: () => void = () => {
     setOpenDeleteSwiper(false);
@@ -55,25 +48,24 @@ export default function CategoryList() {
           margin: "1rem 0",
         }}
       >
-        <Grid xs={6} sx={{ display: "flex", justifyContent: "center" }}>
-          <img
-            src={`${swiper.images.images}`}
+        <Grid xs={4} sx={{ display: "flex", justifyContent: "center" }}>
+          <Image
+            src={`${swiper.image_en}`}
             width={100}
             height={50}
             alt="swiper image"
           />
         </Grid>
-        <Grid xs={6} sx={{ display: "flex", justifyContent: "center" }}>
-          <Tooltip title="Edit">
-            <IconButton
-              onClick={() => {
-                setSwiper(swiper);
-                handleUpdateSwiperOpen();
-              }}
-            >
-              <EditIcon sx={{ color: "primary.main" }} />
-            </IconButton>
-          </Tooltip>
+        <Grid xs={4} sx={{ display: "flex", justifyContent: "center" }}>
+          <Image
+            src={`${swiper.image_ar}`}
+            width={100}
+            height={50}
+            alt="swiper image"
+          />
+        </Grid>
+        <Grid xs={4} sx={{ display: "flex", justifyContent: "center" }}>
+  
           <Tooltip title="Delete">
             <IconButton
               onClick={() => {
@@ -118,11 +110,7 @@ export default function CategoryList() {
       ) : (
         swiperList
       )}
-      <UpdateSwiperModal
-        swiper={swiper}
-        open={openUpdateSwiper}
-        handleUpdateSwiperClose={handleUpdateSwiperClose}
-      />
+
       <DeleteSwiperModal
         swiper={swiper}
         open={openDeleteSwiper}

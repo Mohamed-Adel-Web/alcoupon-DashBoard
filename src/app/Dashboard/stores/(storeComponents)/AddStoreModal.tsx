@@ -12,8 +12,6 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
-import useAddStore from "src/customHooks/storeHooks/useAddStore";
-import { storeType } from "src/types/storeTypes";
 import { Editor } from "primereact/editor";
 import {
   FormControlLabel,
@@ -23,9 +21,9 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
-import { categoryType } from "src/types/categoryTypes";
-import { DevTool } from "@hookform/devtools";
-
+import { storeType } from "@/app/types/storeTypes";
+import useAddStore from "@/app/customHooks/storeHooks/useAddStore";
+import { categoryType } from "@/app/types/categoryTypes";
 const editorHeader = (
   <div id="toolbar">
     <span className="ql-formats">

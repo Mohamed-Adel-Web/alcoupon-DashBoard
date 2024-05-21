@@ -4,11 +4,11 @@ import AddStoreModal from "./(storeComponents)/AddStoreModal";
 import StoresList from "./(storeComponents)/storesList";
 import { useState } from "react";
 import Heading from "../DashboardSharedComponent/Heading";
-import useGetCategory from "src/customHooks/categoryHooks/useGetCategory";
-import { categoryType } from "src/types/categoryTypes";
-import { Toaster } from "react-hot-toast";
 
-import { PrimeReactProvider, PrimeReactContext } from "primereact/api";
+import { Toaster } from "react-hot-toast";
+import useGetCategory from "@/app/customHooks/categoryHooks/useGetCategory";
+import { categoryType } from "@/app/types/categoryTypes";
+
 
 export default function store() {
   const { data } = useGetCategory();
@@ -21,7 +21,6 @@ export default function store() {
     setOpenAddStore(true);
   };
   return (
-    <PrimeReactProvider>
       <Box sx={{ margin: "1rem 0" }}>
         <Heading
           title="Stores"
@@ -52,6 +51,5 @@ export default function store() {
           }}
         />
       </Box>
-    </PrimeReactProvider>
   );
 }

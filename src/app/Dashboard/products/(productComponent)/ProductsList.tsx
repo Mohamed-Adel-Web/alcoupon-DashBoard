@@ -2,14 +2,14 @@
 import { Box, CircularProgress, IconButton } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import Tooltip from "@mui/material/Tooltip";
-import { categoryType } from "src/types/categoryTypes";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
-import useGetProduct from "src/customHooks/productHooks/useGetHooks";
-import { ReceivedProductType } from "src/types/productTypes";
 import DeleteProductModal from "./DeleteProductModal";
 import UpdateProductModal from "./UpdateProductModal";
+import Image from "next/image";
+import useGetProduct from "@/app/customHooks/productHooks/useGetHooks";
+import { ReceivedProductType } from "@/app/types/productTypes";
 
 const productsTitles: string[] = ["title", "store name", "image", "Action"];
 const categoryTitlesList = productsTitles.map((title) => {
@@ -44,7 +44,7 @@ export default function ProductsList() {
       <Grid
         spacing={2}
         container
-        key={product.id}
+        key={product.title_en}
         sx={{
           boxShadow: "rgba(0, 0, 0, 0.18) 0px 2px 4px",
           backgroundColor: "white",
@@ -63,7 +63,7 @@ export default function ProductsList() {
           {product.store_name_en}
         </Grid>
         <Grid xs={3} sx={{ display: "flex", justifyContent: "center" }}>
-          <img
+          <Image
             src={`${product.image}`}
             width={100}
             height={50}

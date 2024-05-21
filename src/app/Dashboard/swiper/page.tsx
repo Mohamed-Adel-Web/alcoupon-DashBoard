@@ -1,14 +1,11 @@
 "use client";
-import { Box, Button, Typography } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import { useEffect, useState } from "react";
+import { Box} from "@mui/material";
+import { useState } from "react";
 import Heading from "../DashboardSharedComponent/Heading";
 import AddSwiperModal from "./(swiperComponents)/AddSwiperModal";
 import SwiperList from "./(swiperComponents)/SwiperList";
-import { useAuth } from "src/app/context/AuthContext";
 import { Toaster } from "react-hot-toast";
-export default function CategoryPage() {
-  const { setToken } = useAuth();
+export default function SwiperPage() {
 
   const [openAddSwiper, setOpenAddSwiper] = useState<boolean>(false);
   const handleAddSwiperClose: () => void = () => {

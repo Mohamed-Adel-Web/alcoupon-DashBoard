@@ -13,9 +13,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
-import useUpdatedStore from "src/customHooks/storeHooks/useUpdateStore";
-import { storeType } from "src/types/storeTypes";
-import { ReceivedStoreType } from "src/types/storeTypes";
+
 import {
   FormControlLabel,
   FormHelperText,
@@ -24,6 +22,9 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
+import { ReceivedStoreType, storeType } from "@/app/types/storeTypes";
+import { categoryType } from "@/app/types/categoryTypes";
+import useUpdatedStore from "@/app/customHooks/storeHooks/useUpdateStore";
 const editorHeader = (
   <div id="toolbar">
     <span className="ql-formats">
@@ -73,7 +74,7 @@ const editorHeader = (
     </span>
   </div>
 );
-import { categoryType } from "src/types/categoryTypes";
+
 export default function UpdatedStoreModal({
   store,
   open,

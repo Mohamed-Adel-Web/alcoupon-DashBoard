@@ -5,15 +5,14 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
-import { categoryType } from "src/types/categoryTypes";
 import Grid from "@mui/material/Unstable_Grid2";
-import { Toaster } from "react-hot-toast";
 import { FormHelperText } from "@mui/material";
-import { Swiper } from "src/types/swiperTypes";
-import useAddSwiper from "src/customHooks/swiperHooks/useAddSwiper";
+import useAddSwiper from "@/app/customHooks/swiperHooks/useAddSwiper";
+import { Swiper } from "@/app/types/swiperTypes";
+
 export default function AddSwiperModal({
   open,
   handleAddSwiperClose,
@@ -22,14 +21,25 @@ export default function AddSwiperModal({
   handleAddSwiperClose: () => void;
 }) {
   const { handleSubmit, formState, watch, setValue } = useForm<Swiper>();
-  const imageSrc = watch("images");
-  const handleFilePondUpdate = (fileItems: any[]) => {
+  const imageSrcAr = watch("image_ar");
+  const imageSrcEn = watch("image_en");
+
+  const handleFilePondArabicUpdate = (fileItems: any[]) => {
     setValue(
-      "images",
+      "image_ar",
       fileItems.map((fileItem) => fileItem.file),
       { shouldValidate: true }
     );
   };
+
+  const handleFilePondEnglishUpdate = (fileItems: any[]) => {
+    setValue(
+      "image_en",
+      fileItems.map((fileItem) => fileItem.file),
+      { shouldValidate: true }
+    );
+  };
+
   const { mutate, isSuccess } = useAddSwiper();
 
   const { errors, isSubmitting } = formState;
@@ -38,10 +48,12 @@ export default function AddSwiperModal({
     if (isSuccess) {
       handleAddSwiperClose();
     }
-  }, [isSuccess]);
+  }, [isSuccess, handleAddSwiperClose]);
+
   const onSubmit = (data: Swiper) => {
     const formData = new FormData();
-    formData.append("images", data.images[0]);
+    formData.append("image_ar", data.image_ar[0]);
+    formData.append("image_en", data.image_en[0]);
     mutate(formData);
   };
 
@@ -54,13 +66,24 @@ export default function AddSwiperModal({
             <Grid container spacing={2}>
               <Grid xs={12}>
                 <FilePond
-                  name="images"
-                  files={imageSrc}
-                  labelIdle={`Upload store image <span class="filepond--label-action"> Browse </span>`}
-                  onupdatefiles={handleFilePondUpdate}
+                  name="image_en"
+                  files={imageSrcEn}
+                  labelIdle={`Upload English image <span class="filepond--label-action"> Browse </span>`}
+                  onupdatefiles={handleFilePondEnglishUpdate}
                 />
-                <FormHelperText error={!!errors.images}>
-                  {errors.images?.message}
+                <FormHelperText error={!!errors.image_en}>
+                  {errors.image_en?.message}
+                </FormHelperText>
+              </Grid>
+              <Grid xs={12}>
+                <FilePond
+                  name="image_ar"
+                  files={imageSrcAr}
+                  labelIdle={`Upload Arabic image <span class="filepond--label-action"> Browse </span>`}
+                  onupdatefiles={handleFilePondArabicUpdate}
+                />
+                <FormHelperText error={!!errors.image_ar}>
+                  {errors.image_ar?.message}
                 </FormHelperText>
               </Grid>
             </Grid>

@@ -6,8 +6,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import useDeleteCategory from "src/customHooks/categoryHooks/useDeleteCategory";
-import { categoryType } from "src/types/categoryTypes";
+import { categoryType } from "@/app/types/categoryTypes";
+import useDeleteCategory from "@/app/customHooks/categoryHooks/useDeleteCategory";
 export default function DeleteCategoryModal({
   category,
   open,

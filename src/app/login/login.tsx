@@ -1,11 +1,11 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useForm } from "react-hook-form";
-import useAdminSignIn from "../../customHooks/useAdminSignIn"; // Import the custom hook
 import Image from "next/image";
-import { loginData } from "../../types/loginTypes";
 import { Toaster } from "react-hot-toast";
 import logo from "../../../public/images/logo.png";
+import { loginData } from "../types/loginTypes";
+import useAdminSignIn from "../customHooks/useAdminSignIn";
 
 export default function Login() {
 

@@ -7,7 +7,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useForm } from "react-hook-form";
-import { ReceivedCouponType, couponType } from "src/types/couponTypes";
 
 import Grid from "@mui/material/Unstable_Grid2";
 import {
@@ -19,9 +18,11 @@ import {
   Select,
   Switch,
 } from "@mui/material";
-import { ReceivedStoreType } from "src/types/storeTypes";
-import useGetStore from "src/customHooks/storeHooks/useGetStore";
-import useUpdatedCoupon from "src/customHooks/couponHooks/useUpdateCoupon";
+import useGetStore from "@/app/customHooks/storeHooks/useGetStore";
+import { ReceivedStoreType } from "@/app/types/storeTypes";
+import { ReceivedCouponType, couponType } from "@/app/types/couponTypes";
+import useUpdatedCoupon from "@/app/customHooks/couponHooks/useUpdateCoupon";
+
 
 export default function UpdateCouponModal({
   coupon,

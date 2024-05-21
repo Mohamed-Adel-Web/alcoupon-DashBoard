@@ -1,14 +1,11 @@
 "use client";
-import { Box, Button, Typography } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import { useEffect, useState } from "react";
+import { Box } from "@mui/material";
+import { useState } from "react";
 import Heading from "../DashboardSharedComponent/Heading";
 import AddCategoryModal from "./(categoryComponents)/AddCategoryModal";
 import CategoryList from "./(categoryComponents)/CategoryList";
-import { useAuth } from "src/app/context/AuthContext";
 import { Toaster } from "react-hot-toast";
 export default function CategoryPage() {
-  const { setToken } = useAuth();
 
   const [openAddCategory, setOpenAddCategory] = useState<boolean>(false);
   const handleAddCategoryClose: () => void = () => {
