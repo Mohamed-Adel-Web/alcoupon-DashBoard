@@ -22,7 +22,7 @@ import {
 import { storeType } from "@/app/types/storeTypes";
 import useAddStore from "@/app/customHooks/storeHooks/useAddStore";
 import { categoryType } from "@/app/types/categoryTypes";
-import CKEditorComponent from "./CKEditorComponent";
+import CKEditorComponent from "./CKEditor";
 
 export default function AddStoreModal({
   open,
@@ -106,7 +106,12 @@ export default function AddStoreModal({
 
   return (
     <React.Fragment>
-      <Dialog open={open} onClose={handleAddStoreClose} maxWidth={"lg"} disableEnforceFocus>
+      <Dialog
+        open={open}
+        onClose={handleAddStoreClose}
+        maxWidth={"lg"}
+        disableEnforceFocus
+      >
         <DialogTitle sx={{ color: "primary.main" }}>Add New Store</DialogTitle>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogContent>
@@ -279,7 +284,6 @@ export default function AddStoreModal({
                       setTextEn(data);
                       setValue("description_en", data);
                     }}
-                    style={{ height: "320px" }}
                   />
                   <FormHelperText error={!!errors.description_en}>
                     {errors.description_en?.message}
@@ -296,7 +300,6 @@ export default function AddStoreModal({
                       setTextAr(data);
                       setValue("description_ar", data);
                     }}
-                    style={{ height: "320px" }}
                   />
                   <FormHelperText error={!!errors.description_ar}>
                     {errors.description_ar?.message}
@@ -313,7 +316,6 @@ export default function AddStoreModal({
                       setAboutTextEn(data);
                       setValue("about_en", data);
                     }}
-                    style={{ height: "320px" }}
                   />
                   <FormHelperText error={!!errors.about_en}>
                     {errors.about_en?.message}
@@ -330,7 +332,6 @@ export default function AddStoreModal({
                       setAboutTextAr(data);
                       setValue("about_ar", data);
                     }}
-                    style={{ height: "320px" }}
                   />
                   <FormHelperText error={!!errors.about_ar}>
                     {errors.about_ar?.message}

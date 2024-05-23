@@ -23,7 +23,7 @@ import {
 import { ReceivedStoreType, storeType } from "@/app/types/storeTypes";
 import { categoryType } from "@/app/types/categoryTypes";
 import useUpdatedStore from "@/app/customHooks/storeHooks/useUpdateStore";
-import CKEditorComponent from "./CKEditorComponent"; // Adjust the import path
+import CKEditorComponent from "./CKEditor"; // Adjust the import path
 
 export default function UpdatedStoreModal({
   store,
@@ -296,7 +296,6 @@ export default function UpdatedStoreModal({
                       setTextEn(data);
                       setValue("description_en", data);
                     }}
-                    style={{ height: "320px" }}
                   />
                   <FormHelperText error={!!errors.description_en}>
                     {errors.description_en?.message}
@@ -314,7 +313,6 @@ export default function UpdatedStoreModal({
                       setTextAr(data);
                       setValue("description_ar", data);
                     }}
-                    style={{ height: "320px" }}
                   />
                   <FormHelperText error={!!errors.description_ar}>
                     {errors.description_ar?.message}
@@ -331,7 +329,6 @@ export default function UpdatedStoreModal({
                       setAboutTextEn(data);
                       setValue("about_en", data);
                     }}
-                    style={{ height: "320px" }}
                   />
                   <FormHelperText error={!!errors.about_en}>
                     {errors.about_en?.message}
@@ -344,13 +341,11 @@ export default function UpdatedStoreModal({
                   <CKEditorComponent
                     value={aboutTextAr}
                     placeholder="store about in arabic"
-                    
                     onChange={(event, editor) => {
                       const data = editor.getData();
                       setAboutTextAr(data);
                       setValue("about_ar", data);
                     }}
-                    style={{ height: "320px" }}
                   />
                   <FormHelperText error={!!errors.about_ar}>
                     {errors.about_ar?.message}
