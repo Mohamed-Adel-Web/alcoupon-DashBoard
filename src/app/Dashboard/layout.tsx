@@ -4,10 +4,6 @@ import DashboardHeader from "./DashboardHeader";
 import DashboardMenu from "./DashboardMenu";
 import Grid from "@mui/material/Unstable_Grid2";
 import * as React from "react";
-import "primereact/resources/themes/saga-blue/theme.css"; // Or another theme
-import "primereact/resources/primereact.min.css"; // Core CSS
-import "primeicons/primeicons.css"; // Icons
-import "primeflex/primeflex.css"; // PrimeFlex
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 
