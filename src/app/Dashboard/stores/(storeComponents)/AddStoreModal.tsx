@@ -1,4 +1,3 @@
-"use client";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -12,7 +11,6 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
-import { Editor } from "primereact/editor";
 import {
   FormControlLabel,
   FormHelperText,
@@ -24,55 +22,8 @@ import {
 import { storeType } from "@/app/types/storeTypes";
 import useAddStore from "@/app/customHooks/storeHooks/useAddStore";
 import { categoryType } from "@/app/types/categoryTypes";
-const editorHeader = (
-  <div id="toolbar">
-    <span className="ql-formats">
-      <select className="ql-font">
-        <option></option>
-        <option value="serif"></option>
-        <option value="monospace"></option>
-      </select>
-      <select className="ql-size">
-        <option value="small"></option>
-        <option></option>
-        <option value="large"></option>
-        <option value="huge"></option>
-      </select>
-    </span>
-    <span className="ql-formats">
-      <button className="ql-bold"></button>
-      <button className="ql-italic"></button>
-      <button className="ql-underline"></button>
-      <button className="ql-strike"></button>
-    </span>
-    <span className="ql-formats">
-      <button className="ql-blockquote"></button>
-      <button className="ql-code-block"></button>
-    </span>
-    <span className="ql-formats">
-      <button className="ql-header" value="1"></button>
-      <button className="ql-header" value="2"></button>
-      <button className="ql-list" value="ordered"></button>
-      <button className="ql-list" value="bullet"></button>
-      <button className="ql-indent" value="-1"></button>
-      <button className="ql-indent" value="+1"></button>
-    </span>
-    <span className="ql-formats">
-      <button className="ql-direction" value="rtl"></button>
-      <select className="ql-align"></select>
-      <select className="ql-color"></select>
-      <select className="ql-background"></select>
-    </span>
-    <span className="ql-formats">
-      <button className="ql-link"></button>
-      <button className="ql-image"></button>
-      <button className="ql-video"></button>
-    </span>
-    <span className="ql-formats">
-      <button className="ql-clean"></button>
-    </span>
-  </div>
-);
+import CKEditorComponent from "./CKEditorComponent";
+
 export default function AddStoreModal({
   open,
   handleAddStoreClose,
@@ -125,7 +76,6 @@ export default function AddStoreModal({
   }, [register]);
 
   const onSubmit = (data: storeType) => {
-    console.log(data);
     const formData = new FormData();
     formData.append("name_ar", data.name_ar);
     formData.append("name_en", data.name_en);
@@ -156,7 +106,7 @@ export default function AddStoreModal({
 
   return (
     <React.Fragment>
-      <Dialog open={open} onClose={handleAddStoreClose} maxWidth={"lg"}>
+      <Dialog open={open} onClose={handleAddStoreClose} maxWidth={"lg"} disableEnforceFocus>
         <DialogTitle sx={{ color: "primary.main" }}>Add New Store</DialogTitle>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogContent>
@@ -321,13 +271,13 @@ export default function AddStoreModal({
               </Grid>
               <Grid md={6} xs={12}>
                 <div className="card">
-                  <Editor
+                  <CKEditorComponent
                     value={textEn}
-                    headerTemplate={editorHeader}
                     placeholder="store description in english"
-                    onTextChange={(e) => {
-                      setTextEn(e.htmlValue || "");
-                      setValue("description_en", e.htmlValue || "");
+                    onChange={(event: any, editor: any) => {
+                      const data = editor.getData();
+                      setTextEn(data);
+                      setValue("description_en", data);
                     }}
                     style={{ height: "320px" }}
                   />
@@ -338,13 +288,13 @@ export default function AddStoreModal({
               </Grid>
               <Grid md={6} xs={12}>
                 <div className="card">
-                  <Editor
+                  <CKEditorComponent
                     value={textAr}
                     placeholder="store description in arabic"
-                    headerTemplate={editorHeader}
-                    onTextChange={(e) => {
-                      setTextAr(e.htmlValue || "");
-                      setValue("description_ar", e.htmlValue || "");
+                    onChange={(event: any, editor: any) => {
+                      const data = editor.getData();
+                      setTextAr(data);
+                      setValue("description_ar", data);
                     }}
                     style={{ height: "320px" }}
                   />
@@ -355,13 +305,13 @@ export default function AddStoreModal({
               </Grid>
               <Grid md={6} xs={12}>
                 <div className="card">
-                  <Editor
+                  <CKEditorComponent
                     value={aboutTextEn}
-                    headerTemplate={editorHeader}
                     placeholder="store about in english"
-                    onTextChange={(e) => {
-                      setAboutTextEn(e.htmlValue || "");
-                      setValue("about_en", e.htmlValue || "");
+                    onChange={(event: any, editor: any) => {
+                      const data = editor.getData();
+                      setAboutTextEn(data);
+                      setValue("about_en", data);
                     }}
                     style={{ height: "320px" }}
                   />
@@ -372,13 +322,13 @@ export default function AddStoreModal({
               </Grid>
               <Grid md={6} xs={12}>
                 <div className="card">
-                  <Editor
+                  <CKEditorComponent
                     value={aboutTextAr}
                     placeholder="store about in arabic"
-                    headerTemplate={editorHeader}
-                    onTextChange={(e) => {
-                      setAboutTextAr(e.htmlValue || "");
-                      setValue("about_ar", e.htmlValue || "");
+                    onChange={(event: any, editor: any) => {
+                      const data = editor.getData();
+                      setAboutTextAr(data);
+                      setValue("about_ar", data);
                     }}
                     style={{ height: "320px" }}
                   />

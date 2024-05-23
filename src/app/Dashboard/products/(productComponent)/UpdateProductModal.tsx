@@ -235,7 +235,6 @@ export default function UpdateProductModal({
             </Button>
           </DialogActions>
         </form>
-        {/* <DevTool control={control} /> */}
       </Dialog>
     </React.Fragment>
   );

@@ -1,8 +1,17 @@
+:root {
+  --ck-z-default: 100;
+  --ck-z-panel: calc(var(--ck-z-default) + 999);
+}
+.ck-balloon-panel {
+  z-index: 9998 !important;
+}
+.ck-editor__editable_inline {
+  padding: 0 30px !important;
+}
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  list-style: none;
   text-decoration: none;
   font-family: "Maven Pro";
 }

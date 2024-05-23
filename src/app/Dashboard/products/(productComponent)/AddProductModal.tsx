@@ -220,7 +220,6 @@ export default function AddProductModal({
             </Button>
           </DialogActions>
         </form>
-        {/* <DevTool control={control} /> */}
       </Dialog>
     </React.Fragment>
   );
