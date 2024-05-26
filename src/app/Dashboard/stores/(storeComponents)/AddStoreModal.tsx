@@ -95,8 +95,8 @@ export default function AddStoreModal({
     formData.append("meta_keyword_en", data.meta_keyword_en);
     formData.append("title_en", data.title_en);
     formData.append("title_ar", data.title_ar);
-    formData.append("discount_en", data.title_en);
-    formData.append("discount_ar", data.title_ar);
+    formData.append("discount_en", data.discount_en);
+    formData.append("discount_ar", data.discount_ar);
     formData.append("about_en", data.about_en);
     formData.append("about_ar", data.about_ar);
     formData.append("allstore", data.allstore ? "all-store" : "not-all-store");

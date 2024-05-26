@@ -9,7 +9,7 @@ import useAdminSignIn from "../customHooks/useAdminSignIn";
 
 export default function Login() {
 
-  const { mutate } = useAdminSignIn();
+  const { mutate,isPending } = useAdminSignIn();
   const { register, control, handleSubmit, formState } = useForm<loginData>({
     mode: "onTouched",
   });
@@ -80,7 +80,7 @@ export default function Login() {
           <Button
             type="submit"
             variant="contained"
-            disabled={isSubmitting}
+            disabled={isPending}
           >
             Sign in
           </Button>
