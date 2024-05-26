@@ -8,6 +8,14 @@
 .ck-editor__editable_inline {
   padding: 0 30px !important;
 }
+.ck-editor__editable {
+  min-height: 150px;
+}
+
+body {
+  --ck-z-default: 100;
+  --ck-z-modal: calc( var(--ck-z-default) + 999);
+}
 * {
   box-sizing: border-box;
   margin: 0;

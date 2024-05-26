@@ -148,7 +148,12 @@ export default function UpdatedStoreModal({
 
   return (
     <React.Fragment>
-      <Dialog open={open} onClose={handleUpdatedStoreClose} maxWidth={"lg"}>
+      <Dialog
+        open={open}
+        onClose={handleUpdatedStoreClose}
+        maxWidth={"lg"}
+        disableEnforceFocus
+      >
         <DialogTitle sx={{ color: "primary.main" }}>Update Store</DialogTitle>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogContent>
