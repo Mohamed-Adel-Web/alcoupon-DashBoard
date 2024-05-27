@@ -36,11 +36,13 @@ export default function CouponsList() {
     end_date: new Date(),
     store_id: 0,
     store_name_en: "",
-    flag_code: "",
+    flag_code: [""],
   });
   const { data, isPending } = useGetCoupon();
   const couponData: ReceivedCouponType[] = data?.data.data;
   const couponsList = couponData?.map((coupon) => {
+    console.log(coupon)
+
     return (
       <Grid
         spacing={2}
@@ -87,6 +89,7 @@ export default function CouponsList() {
             <IconButton
               onClick={() => {
                 setCoupon(coupon);
+                console.log(coupon);
                 handleDeleteCouponOpen();
               }}
             >
@@ -97,6 +100,7 @@ export default function CouponsList() {
       </Grid>
     );
   });
+  console.log(couponsList?.length);
   const [openUpdateCoupon, setOpenUpdateCoupon] = useState<boolean>(false);
   const handleUpdateCouponClose: () => void = () => {
     setOpenUpdateCoupon(false);

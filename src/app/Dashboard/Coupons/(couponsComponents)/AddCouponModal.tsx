@@ -6,7 +6,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 import Grid from "@mui/material/Unstable_Grid2";
 import {
@@ -22,7 +22,6 @@ import { ReceivedStoreType } from "@/app/types/storeTypes";
 import useGetStore from "@/app/customHooks/storeHooks/useGetStore";
 import useAddCoupon from "@/app/customHooks/couponHooks/useAddCoupon";
 import { couponType } from "@/app/types/couponTypes";
-
 
 export default function AddCouponModal({
   open,
@@ -166,20 +165,26 @@ export default function AddCouponModal({
                 </FormControl>
               </Grid>
               <Grid xs={12}>
-                {" "}
                 <FormControl fullWidth>
-                  <InputLabel id="country-label">country </InputLabel>
-                  <Select
-                    labelId="country-label"
-                    id="country-select"
-                    label="country"
-                    {...register("flag_code", {
-                      required: "country code is required",
-                    })}
-                    error={!!errors.flag_code}
-                  >
-                    {flagList}
-                  </Select>
+                  <InputLabel id="country-label">Country</InputLabel>
+                  <Controller
+                    name="flag_code"
+                    control={control}
+                    defaultValue={[]}
+                    render={({ field }) => (
+                      <Select
+                        labelId="country-label"
+                        id="country-select"
+                        multiple
+                        label="Country"
+                        {...field}
+                        error={!!errors.flag_code}
+                        
+                      >
+                        {flagList}
+                      </Select>
+                    )}
+                  />
                   <FormHelperText error>
                     {errors.flag_code?.message}
                   </FormHelperText>

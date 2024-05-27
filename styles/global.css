@@ -65,3 +65,10 @@ body {
 .ql-tooltip.ql-editing[data-mode="video"] {
   left: 0px !important;
 }
+.Mui-selected{
+  transition: 0.3s;
+}
+.Mui-selected{
+  background-color: #212121 !important;
+  color: white !important;
+}
