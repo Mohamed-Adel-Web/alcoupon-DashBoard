@@ -17,3 +17,5 @@ const deleteSwiperRoute = `slider-image`;
 export const deleteSwiperUrl = baseUrl + deleteSwiperRoute;
 const statisticsRoute = `Statistic`;
 export const statisticsUrl = baseUrl + statisticsRoute;
+const usersRoute = `user`;
+export const usersUrl = baseUrl + usersRoute;

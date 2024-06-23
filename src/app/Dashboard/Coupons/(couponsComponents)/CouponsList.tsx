@@ -41,8 +41,6 @@ export default function CouponsList() {
   const { data, isPending } = useGetCoupon();
   const couponData: ReceivedCouponType[] = data?.data.data;
   const couponsList = couponData?.map((coupon) => {
-    console.log(coupon)
-
     return (
       <Grid
         spacing={2}
@@ -89,7 +87,6 @@ export default function CouponsList() {
             <IconButton
               onClick={() => {
                 setCoupon(coupon);
-                console.log(coupon);
                 handleDeleteCouponOpen();
               }}
             >

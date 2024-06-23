@@ -6,8 +6,8 @@ export default function Heading({
   buttonTitle,
 }: {
   title: string;
-  handleOpen: () => void;
-  buttonTitle: string;
+  handleOpen?: () => void;
+  buttonTitle?: string;
 }) {
   return (
     <Box
@@ -27,9 +27,13 @@ export default function Heading({
       >
         {title}
       </Typography>
-      <Button variant="contained" endIcon={<AddIcon />} onClick={handleOpen}>
-        {buttonTitle}
-      </Button>
+      {buttonTitle ? (
+        <Button variant="contained" endIcon={<AddIcon />} onClick={handleOpen}>
+          {buttonTitle}
+        </Button>
+      ) : (
+        ""
+      )}
     </Box>
   );
 }

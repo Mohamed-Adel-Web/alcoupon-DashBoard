@@ -12,6 +12,7 @@ import StoreIcon from "@mui/icons-material/Store";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import ImageIcon from "@mui/icons-material/Image";
+import GroupIcon from '@mui/icons-material/Group';
 import Link from "next/link";
 
 export const DashboardMenuData: { title: string; icon: React.ReactElement }[] =
@@ -21,6 +22,7 @@ export const DashboardMenuData: { title: string; icon: React.ReactElement }[] =
     { title: "Coupons", icon: <BookOnlineIcon /> },
     { title: "products", icon: <InventoryIcon /> },
     { title: "swiper", icon: <ImageIcon /> },
+    { title: "users", icon: <GroupIcon  /> },
   ];
 
 const DashboardMenuList = DashboardMenuData.map((data) => {
